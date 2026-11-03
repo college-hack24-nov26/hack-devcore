@@ -298,7 +298,8 @@ export function buildSupplyChainGraph({
           : route.route_status,
           dataSource: route.data_source,
         },
-      }
+      },
+route.route_id
     );
   });
 
