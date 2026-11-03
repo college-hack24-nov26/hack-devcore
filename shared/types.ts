@@ -1,7 +1,7 @@
 
 /**
- * Ripple shared contract v0.3.
- * Aligned with Member 3 graph interfaces and Member 4 simulation requirements.
+ * Ripple shared integration contract v0.4.
+ * Aligned with frontend, graph builder and simulation engine requirements.
  */
 
 export type UUID = string;
@@ -33,6 +33,8 @@ export type DisruptionType =
 
 export type Severity = "low" | "medium" | "high" | "critical";
 
+/* ---------------- GRAPH STRUCTURES ---------------- */
+
 export interface GraphNode {
   id: UUID;
   companyId: UUID;
@@ -50,8 +52,8 @@ export interface GraphEdge {
   capacity?: number | null;
 
   /**
-   * Capacity unit and time basis, e.g. "kg/day", "units/day",
-   * or "tonnes/day". Never infer a missing unit.
+   * Capacity unit and time basis, e.g. "kg/day", "units/day".
+   * Never infer a missing unit.
    */
   capacityUnit?: string;
 
@@ -59,7 +61,7 @@ export interface GraphEdge {
   leadTimeDays?: number | null;
 
   /**
-   * Route-specific metadata remains inside attributes:
+   * Route metadata remains inside attributes:
    * routeId, distanceKm, estimatedTravelTimeHours,
    * transportCost, floodRiskLevel, routeStatus.
    */
@@ -73,8 +75,10 @@ export interface GraphSnapshot {
   generatedAt: string;
 }
 
+/* ---------------- SCENARIO STRUCTURES ---------------- */
+
 export interface ScenarioEvent {
-  eventType: DisruptionType;
+  type: DisruptionType;
 
   /** ID of the affected graph node or edge. */
   targetId: UUID;
@@ -86,7 +90,7 @@ export interface ScenarioEvent {
   targetType?: EntityType;
 
   severity: Severity;
-  durationDays: number;
+  durationHours: number;
   capacityReductionPercent?: number;
   description?: string;
 }
@@ -95,20 +99,45 @@ export interface ScenarioInput {
   companyId: UUID;
   name: string;
   description?: string;
+
+  /** ISO 8601 timestamp indicating when the scenario starts. */
+  startAt: string;
+
   events: ScenarioEvent[];
 }
 
-export interface SimulationResult {
-  simulationId: UUID;
-  status: "completed" | "failed";
-  affectedEntityIds: UUID[];
-  estimatedProductionLossPercent?: number | null;
-  estimatedDelayedOrders?: number | null;
-  estimatedFinancialImpact?: number | null;
-  currencyCode?: string | null;
-  assumptions: string[];
-  warnings: string[];
+/* ---------------- IMPACT STRUCTURES ---------------- */
+
+export interface FinancialImpact {
+  bestCase: number | null;
+  expectedCase: number | null;
+  worstCase: number | null;
+  currency: string;
 }
+
+export interface ImpactResult {
+  /** IDs of all affected graph entities. */
+  affectedEntityIds: UUID[];
+
+  /** Counts of affected entities by category. */
+  affectedEntities: number;
+  affectedSuppliers: number;
+  affectedFacilities: number;
+  affectedWarehouses: number;
+
+  /** Number of impacted orders. */
+  impactedOrders: number;
+
+  inventoryShortage: number | null;
+  estimatedProductionLoss: number | null;
+  estimatedDelayDays: number | null;
+
+  financialImpact: FinancialImpact;
+
+  severity: Severity;
+}
+
+/* ---------------- RECOVERY STRUCTURES ---------------- */
 
 export interface RecoveryActionDraft {
   id: UUID;
@@ -122,10 +151,47 @@ export interface RecoveryActionDraft {
 }
 
 export interface RecoveryPlanDraft {
-  simulationId: UUID;
+  id: UUID;
+  name: string;
+  strategyType: string;
+  description: string;
+
+  estimatedCost: number | null;
+  currencyCode: string;
+
+  recoveryTimeHours: number | null;
+  expectedImpactReductionPercent: number | null;
+
+  feasibility: "feasible" | "conditional" | "infeasible";
+  risk: Severity;
+
+  recommended: boolean;
+
   actions: RecoveryActionDraft[];
+
+  assumptions: string[];
+  warnings: string[];
+
   requiresHumanApproval: true;
 }
+
+/* ---------------- SIMULATION RESULT ---------------- */
+
+export interface SimulationResult {
+  simulationId: UUID;
+  scenarioId: UUID;
+
+  status: "completed" | "failed";
+  simulationMode: "hypothetical";
+
+  impact: ImpactResult;
+  recoveryPlans: RecoveryPlanDraft[];
+
+  assumptions: string[];
+  warnings: string[];
+}
+
+/* ---------------- API ERROR ---------------- */
 
 export interface ApiError {
   code: string;

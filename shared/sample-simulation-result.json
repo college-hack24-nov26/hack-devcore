@@ -1,0 +1,70 @@
+
+{
+  "simulationId": "550e8400-e29b-41d4-a716-446655440001",
+  "scenarioId": "550e8400-e29b-41d4-a716-446655440002",
+  "status": "completed",
+  "simulationMode": "hypothetical",
+  "impact": {
+    "affectedEntityIds": [
+      "	550e8400-e29b-41d4-a716-446655440003",
+      "550e8400-e29b-41d4-a716-446655440004",
+      "550e8400-e29b-41d4-a716-446655440005"
+    ],
+    "affectedEntities": 3,
+    "affectedSuppliers": 1,
+    "affectedFacilities": 1,
+    "affectedWarehouses": 1,
+    "impactedOrders": 25,
+    "inventoryShortage": null,
+    "estimatedProductionLoss": null,
+    "estimatedDelayDays": 4,
+    "financialImpact": {
+      "bestCase": null,
+      "expectedCase": null,
+      "worstCase": null,
+      "currency": "INR"
+    },
+    "severity": "high"
+  },
+  "recoveryPlans": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440006",
+      "name": "Switch to an alternate supplier",
+      "strategyType": "alternate_supplier",
+      "description": "Source the affected material from an alternative supplier.",
+      "estimatedCost": null,
+      "currencyCode": "INR",
+      "recoveryTimeHours": null,
+      "expectedImpactReductionPercent": null,
+      "feasibility": "conditional",
+      "risk": "medium",
+      "recommended": true,
+      "actions": [
+        {
+          "id": "550e8400-e29b-41d4-a716-446655440007",
+          "actionType": "supplier_switch",
+          "description": "Evaluate and activate an alternative supplier.",
+          "targetEntityId": "supplier-001",
+          "estimatedCost": null,
+          "currencyCode": "INR",
+          "estimatedLeadTimeDays": null,
+          "rationale": "Provides an alternative source for the disrupted material."
+        }
+      ],
+      "assumptions": [
+        "An alternative supplier may be available."
+      ],
+      "warnings": [
+        "Supplier availability and capacity require verification."
+      ],
+      "requiresHumanApproval": true
+    }
+  ],
+  "assumptions": [
+    "The scenario is hypothetical.",
+    "Unavailable financial and inventory estimates are represented as null."
+  ],
+  "warnings": [
+    "All recovery recommendations require validation against actual company data."
+  ]
+}
