@@ -93,7 +93,13 @@ export function buildSupplyChainGraph({
     return node;
   }
 
-  function addEdge(sourceId, targetId, relationshipType, attributes = {}) {
+  function addEdge(
+  sourceId,
+  targetId,
+  relationshipType,
+  attributes = {},
+  uniqueKey = null
+) {
     const sourceNode = sourceIdToNode.get(sourceId);
     const targetNode = sourceIdToNode.get(targetId);
 
