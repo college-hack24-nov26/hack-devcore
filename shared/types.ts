@@ -1,6 +1,7 @@
+
 /**
- * Ripple shared contract draft v0.1.
- * Team review required; these types are not a finalized API.
+ * Ripple shared contract v0.3.
+ * Aligned with Member 3 graph interfaces and Member 4 simulation requirements.
  */
 
 export type UUID = string;
@@ -47,7 +48,21 @@ export interface GraphEdge {
   targetId: UUID;
   relationshipType: RelationshipType;
   capacity?: number | null;
+
+  /**
+   * Capacity unit and time basis, e.g. "kg/day", "units/day",
+   * or "tonnes/day". Never infer a missing unit.
+   */
+  capacityUnit?: string;
+
+  materialId?: UUID | null;
   leadTimeDays?: number | null;
+
+  /**
+   * Route-specific metadata remains inside attributes:
+   * routeId, distanceKm, estimatedTravelTimeHours,
+   * transportCost, floodRiskLevel, routeStatus.
+   */
   attributes?: Record<string, unknown>;
 }
 
@@ -60,7 +75,16 @@ export interface GraphSnapshot {
 
 export interface ScenarioEvent {
   eventType: DisruptionType;
-  affectedEntityId: UUID;
+
+  /** ID of the affected graph node or edge. */
+  targetId: UUID;
+
+  /** Identifies whether targetId references a node or edge. */
+  targetKind: "node" | "edge";
+
+  /** Optional additional validation for node targets. */
+  targetType?: EntityType;
+
   severity: Severity;
   durationDays: number;
   capacityReductionPercent?: number;
