@@ -109,7 +109,9 @@ export function buildSupplyChainGraph({
       );
     }
 
-    const edgeKey = `${sourceNode.id}:${targetNode.id}:${relationshipType}`;
+   const edgeKey = uniqueKey
+  ? `${sourceNode.id}:${targetNode.id}:${relationshipType}:${uniqueKey}`
+  : `${sourceNode.id}:${targetNode.id}:${relationshipType}`;
 
     if (edgeKeys.has(edgeKey)) {
       return;
@@ -118,10 +120,12 @@ export function buildSupplyChainGraph({
     edgeKeys.add(edgeKey);
 
     edges.push({
-      id: createStableId(
-        companyId,
-        `EDGE:${sourceId}:${targetId}:${relationshipType}`
-      ),
+     id: createStableId(
+  companyId,
+  uniqueKey
+    ? `EDGE:${sourceId}:${targetId}:${relationshipType}:${uniqueKey}`
+    : `EDGE:${sourceId}:${targetId}:${relationshipType}`
+),
       companyId,
       sourceId: sourceNode.id,
       targetId: targetNode.id,
