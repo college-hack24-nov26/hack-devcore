@@ -1,0 +1,31 @@
+supplier_id,supplier_name,district,village,milk_type,daily_supply_litres,reliability_score,status,data_source
+SUP-01,Shri Balaji Dairy Farm,Kolhapur,Kagal,Cow,5031,0.78,active,RECONSTRUCTED_SAMPLE
+SUP-02,Sai Krupa Milk Producers,Kolhapur,Panhala,Buffalo,2457,0.78,active,RECONSTRUCTED_SAMPLE
+SUP-03,Mahalaxmi Dairy Group,Kolhapur,Gadhinglaj,Cow,5210,0.89,active,RECONSTRUCTED_SAMPLE
+SUP-04,Shanti Sagar Milk Center,Kolhapur,Ajra,Buffalo,4887,0.93,active,RECONSTRUCTED_SAMPLE
+SUP-05,Vitthal Dairy Farm,Kolhapur,Hatkanangale,Mixed,4881,0.94,active,RECONSTRUCTED_SAMPLE
+SUP-06,Renuka Milk Producers,Kolhapur,Shirol,Mixed,2996,0.83,active,RECONSTRUCTED_SAMPLE
+SUP-07,Gokuleshwar Dairy Farm,Kolhapur,Radhanagari,Cow,5356,0.91,active,RECONSTRUCTED_SAMPLE
+SUP-08,Dnyaneshwar Milk Center,Kolhapur,Bhudargad,Buffalo,2092,0.94,active,RECONSTRUCTED_SAMPLE
+SUP-09,Sant Sai Dairy Farm,Kolhapur,Chandgad,Buffalo,4484,0.73,active,RECONSTRUCTED_SAMPLE
+SUP-10,Keshav Milk Producers,Kolhapur,Gargoti,Buffalo,3186,0.79,active,RECONSTRUCTED_SAMPLE
+SUP-11,Ambabai Dairy Group,Kolhapur,Karveer,Cow,4643,0.85,active,RECONSTRUCTED_SAMPLE
+SUP-12,Bhagwati Dairy Farm,Kolhapur,Kolhapur Rural,Cow,2245,0.87,active,RECONSTRUCTED_SAMPLE
+SUP-13,Nanda Milk Producers,Kolhapur,Shivapur,Buffalo,3609,0.83,active,RECONSTRUCTED_SAMPLE
+SUP-14,Shivneri Milk Center,Kolhapur,Ardagad,Cow,2282,0.73,active,RECONSTRUCTED_SAMPLE
+SUP-15,Swarna Dairy Farm,Sangli,Miraj,Mixed,2003,0.74,active,RECONSTRUCTED_SAMPLE
+SUP-16,Indrayani Milk Producers,Sangli,Tasgaon,Buffalo,3125,0.89,active,RECONSTRUCTED_SAMPLE
+SUP-17,Krishna Valley Dairy Group,Sangli,Atpadi,Buffalo,4289,0.83,active,RECONSTRUCTED_SAMPLE
+SUP-18,Tulsi Dairy Farm,Sangli,Jath,Mixed,3440,0.77,active,RECONSTRUCTED_SAMPLE
+SUP-19,Annapurna Milk Center,Sangli,Shirala,Mixed,2965,0.90,active,RECONSTRUCTED_SAMPLE
+SUP-20,Someshwar Dairy Farm,Sangli,Kavathemahankal,Cow,4845,0.79,active,RECONSTRUCTED_SAMPLE
+SUP-21,Sahyadri Milk Producers,Sangli,Mangalvedhe,Mixed,2223,0.87,active,RECONSTRUCTED_SAMPLE
+SUP-22,Shree Ganesh Milk Producers,Sangli,Vita,Mixed,2573,0.81,active,RECONSTRUCTED_SAMPLE
+SUP-23,Panchganga Dairy Group,Sangli,Kadegaon,Cow,3015,0.77,active,RECONSTRUCTED_SAMPLE
+SUP-24,Trimurti Dairy Farm,Sangli,Sangli Rural,Mixed,3184,0.72,active,RECONSTRUCTED_SAMPLE
+SUP-25,Yashoda Milk Center,Satara,Karad,Buffalo,2099,0.76,active,RECONSTRUCTED_SAMPLE
+SUP-26,Sahyadri Dairy Farm,Satara,Wai,Cow,4632,0.85,active,RECONSTRUCTED_SAMPLE
+SUP-27,Shubham Milk Producers,Satara,Mahabaleshwar,Buffalo,3403,0.92,active,RECONSTRUCTED_SAMPLE
+SUP-28,Rajmata Dairy Group,Satara,Phaltan,Cow,4724,0.93,active,RECONSTRUCTED_SAMPLE
+SUP-29,Prasanna Milk Center,Satara,Lonand,Buffalo,3286,0.91,active,RECONSTRUCTED_SAMPLE
+SUP-30,Shree Ram Dairy Farm,Satara,Satara Rural,Cow,3354,0.85,active,RECONSTRUCTED_SAMPLE

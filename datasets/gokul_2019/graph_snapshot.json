@@ -1,0 +1,1467 @@
+{
+  "companyId": "11111111-1111-4111-8111-111111111111",
+  "nodes": [
+    {
+      "id": "2771b2dc-a0c7-55f1-a625-a3a42a951a61",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Shri Balaji Dairy Farm",
+      "attributes": {
+        "district": "Kolhapur",
+        "village": "Kagal",
+        "milkType": "Cow",
+        "dailySupplyLitres": 5031,
+        "reliabilityScore": 0.78,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-01"
+      }
+    },
+    {
+      "id": "a0b6d5e0-55ac-5f9d-8972-6448954dc779",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Sai Krupa Milk Producers",
+      "attributes": {
+        "district": "Kolhapur",
+        "village": "Panhala",
+        "milkType": "Buffalo",
+        "dailySupplyLitres": 2457,
+        "reliabilityScore": 0.78,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-02"
+      }
+    },
+    {
+      "id": "f265c087-2d38-59c1-ab66-04d5f0172806",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Mahalaxmi Dairy Group",
+      "attributes": {
+        "district": "Kolhapur",
+        "village": "Gadhinglaj",
+        "milkType": "Cow",
+        "dailySupplyLitres": 5210,
+        "reliabilityScore": 0.89,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-03"
+      }
+    },
+    {
+      "id": "922026c6-df4d-53f0-8b52-7fa9300ff631",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Shanti Sagar Milk Center",
+      "attributes": {
+        "district": "Kolhapur",
+        "village": "Ajra",
+        "milkType": "Buffalo",
+        "dailySupplyLitres": 4887,
+        "reliabilityScore": 0.93,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-04"
+      }
+    },
+    {
+      "id": "047e7f64-15ed-564a-92cd-55705719f26e",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Vitthal Dairy Farm",
+      "attributes": {
+        "district": "Kolhapur",
+        "village": "Hatkanangale",
+        "milkType": "Mixed",
+        "dailySupplyLitres": 4881,
+        "reliabilityScore": 0.94,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-05"
+      }
+    },
+    {
+      "id": "73001440-35c8-58b9-8c47-5bc90f943b43",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Renuka Milk Producers",
+      "attributes": {
+        "district": "Kolhapur",
+        "village": "Shirol",
+        "milkType": "Mixed",
+        "dailySupplyLitres": 2996,
+        "reliabilityScore": 0.83,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-06"
+      }
+    },
+    {
+      "id": "8451aab8-af4a-5bc8-8b08-cded5fe3a97b",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Gokuleshwar Dairy Farm",
+      "attributes": {
+        "district": "Kolhapur",
+        "village": "Radhanagari",
+        "milkType": "Cow",
+        "dailySupplyLitres": 5356,
+        "reliabilityScore": 0.91,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-07"
+      }
+    },
+    {
+      "id": "7147a3dd-e752-55d6-baba-3ebd3e028b42",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Dnyaneshwar Milk Center",
+      "attributes": {
+        "district": "Kolhapur",
+        "village": "Bhudargad",
+        "milkType": "Buffalo",
+        "dailySupplyLitres": 2092,
+        "reliabilityScore": 0.94,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-08"
+      }
+    },
+    {
+      "id": "06fecbc0-3823-52b8-81b8-fa2cf13e0b5e",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Sant Sai Dairy Farm",
+      "attributes": {
+        "district": "Kolhapur",
+        "village": "Chandgad",
+        "milkType": "Buffalo",
+        "dailySupplyLitres": 4484,
+        "reliabilityScore": 0.73,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-09"
+      }
+    },
+    {
+      "id": "3195c238-c061-5038-89e5-2c5bc89d1273",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Keshav Milk Producers",
+      "attributes": {
+        "district": "Kolhapur",
+        "village": "Gargoti",
+        "milkType": "Buffalo",
+        "dailySupplyLitres": 3186,
+        "reliabilityScore": 0.79,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-10"
+      }
+    },
+    {
+      "id": "c218ae0b-3655-5540-a299-701799e8d992",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Ambabai Dairy Group",
+      "attributes": {
+        "district": "Kolhapur",
+        "village": "Karveer",
+        "milkType": "Cow",
+        "dailySupplyLitres": 4643,
+        "reliabilityScore": 0.85,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-11"
+      }
+    },
+    {
+      "id": "737f6082-c934-5428-bfce-5532d086b68f",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Bhagwati Dairy Farm",
+      "attributes": {
+        "district": "Kolhapur",
+        "village": "Kolhapur Rural",
+        "milkType": "Cow",
+        "dailySupplyLitres": 2245,
+        "reliabilityScore": 0.87,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-12"
+      }
+    },
+    {
+      "id": "dffcc7a1-f972-5ae3-9dbb-765f95c51216",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Nanda Milk Producers",
+      "attributes": {
+        "district": "Kolhapur",
+        "village": "Shivapur",
+        "milkType": "Buffalo",
+        "dailySupplyLitres": 3609,
+        "reliabilityScore": 0.83,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-13"
+      }
+    },
+    {
+      "id": "b4769886-a854-5cc3-9c9e-27479c92833a",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Shivneri Milk Center",
+      "attributes": {
+        "district": "Kolhapur",
+        "village": "Ardagad",
+        "milkType": "Cow",
+        "dailySupplyLitres": 2282,
+        "reliabilityScore": 0.73,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-14"
+      }
+    },
+    {
+      "id": "f5e35c91-5d00-5faa-a6d5-31145fda782e",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Swarna Dairy Farm",
+      "attributes": {
+        "district": "Sangli",
+        "village": "Miraj",
+        "milkType": "Mixed",
+        "dailySupplyLitres": 2003,
+        "reliabilityScore": 0.74,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-15"
+      }
+    },
+    {
+      "id": "ea6304a9-b2ce-5d9c-9a32-4de6e30f530b",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Indrayani Milk Producers",
+      "attributes": {
+        "district": "Sangli",
+        "village": "Tasgaon",
+        "milkType": "Buffalo",
+        "dailySupplyLitres": 3125,
+        "reliabilityScore": 0.89,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-16"
+      }
+    },
+    {
+      "id": "b93a7492-7292-58ac-8bfe-c0c02842daf0",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Krishna Valley Dairy Group",
+      "attributes": {
+        "district": "Sangli",
+        "village": "Atpadi",
+        "milkType": "Buffalo",
+        "dailySupplyLitres": 4289,
+        "reliabilityScore": 0.83,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-17"
+      }
+    },
+    {
+      "id": "ff08921c-de0d-575e-a6d9-3e8fb1223ad3",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Tulsi Dairy Farm",
+      "attributes": {
+        "district": "Sangli",
+        "village": "Jath",
+        "milkType": "Mixed",
+        "dailySupplyLitres": 3440,
+        "reliabilityScore": 0.77,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-18"
+      }
+    },
+    {
+      "id": "f43cc9f7-95e4-52e4-b543-ce817eec2afa",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Annapurna Milk Center",
+      "attributes": {
+        "district": "Sangli",
+        "village": "Shirala",
+        "milkType": "Mixed",
+        "dailySupplyLitres": 2965,
+        "reliabilityScore": 0.9,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-19"
+      }
+    },
+    {
+      "id": "0a356f46-fa23-5177-a9fc-b68392c182d9",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Someshwar Dairy Farm",
+      "attributes": {
+        "district": "Sangli",
+        "village": "Kavathemahankal",
+        "milkType": "Cow",
+        "dailySupplyLitres": 4845,
+        "reliabilityScore": 0.79,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-20"
+      }
+    },
+    {
+      "id": "8ff1b376-ade4-5cd8-a417-0f56b7e8112c",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Sahyadri Milk Producers",
+      "attributes": {
+        "district": "Sangli",
+        "village": "Mangalvedhe",
+        "milkType": "Mixed",
+        "dailySupplyLitres": 2223,
+        "reliabilityScore": 0.87,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-21"
+      }
+    },
+    {
+      "id": "4d1f67c6-2966-58d4-bd9c-f6b4ff142538",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Shree Ganesh Milk Producers",
+      "attributes": {
+        "district": "Sangli",
+        "village": "Vita",
+        "milkType": "Mixed",
+        "dailySupplyLitres": 2573,
+        "reliabilityScore": 0.81,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-22"
+      }
+    },
+    {
+      "id": "f037b97d-f479-558b-b091-2809f277f4a7",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Panchganga Dairy Group",
+      "attributes": {
+        "district": "Sangli",
+        "village": "Kadegaon",
+        "milkType": "Cow",
+        "dailySupplyLitres": 3015,
+        "reliabilityScore": 0.77,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-23"
+      }
+    },
+    {
+      "id": "9279dda9-c70e-5480-ab82-6b2f3f7eeb34",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Trimurti Dairy Farm",
+      "attributes": {
+        "district": "Sangli",
+        "village": "Sangli Rural",
+        "milkType": "Mixed",
+        "dailySupplyLitres": 3184,
+        "reliabilityScore": 0.72,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-24"
+      }
+    },
+    {
+      "id": "527d76b1-7ed2-5c27-a9af-2967291b5f06",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Yashoda Milk Center",
+      "attributes": {
+        "district": "Satara",
+        "village": "Karad",
+        "milkType": "Buffalo",
+        "dailySupplyLitres": 2099,
+        "reliabilityScore": 0.76,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-25"
+      }
+    },
+    {
+      "id": "34e98f44-8310-5178-8601-9eec06389655",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Sahyadri Dairy Farm",
+      "attributes": {
+        "district": "Satara",
+        "village": "Wai",
+        "milkType": "Cow",
+        "dailySupplyLitres": 4632,
+        "reliabilityScore": 0.85,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-26"
+      }
+    },
+    {
+      "id": "40213837-f68a-5bac-b7a7-550d6bcf4b83",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Shubham Milk Producers",
+      "attributes": {
+        "district": "Satara",
+        "village": "Mahabaleshwar",
+        "milkType": "Buffalo",
+        "dailySupplyLitres": 3403,
+        "reliabilityScore": 0.92,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-27"
+      }
+    },
+    {
+      "id": "ba051dde-6796-5c01-971a-bfd8a26205f1",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Rajmata Dairy Group",
+      "attributes": {
+        "district": "Satara",
+        "village": "Phaltan",
+        "milkType": "Cow",
+        "dailySupplyLitres": 4724,
+        "reliabilityScore": 0.93,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-28"
+      }
+    },
+    {
+      "id": "9e740c7d-e536-5f13-b7bc-6de1eb4f6f11",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Prasanna Milk Center",
+      "attributes": {
+        "district": "Satara",
+        "village": "Lonand",
+        "milkType": "Buffalo",
+        "dailySupplyLitres": 3286,
+        "reliabilityScore": 0.91,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-29"
+      }
+    },
+    {
+      "id": "20274da8-8ab3-55b3-a338-fbbc30d23451",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "supplier",
+      "name": "Shree Ram Dairy Farm",
+      "attributes": {
+        "district": "Satara",
+        "village": "Satara Rural",
+        "milkType": "Cow",
+        "dailySupplyLitres": 3354,
+        "reliabilityScore": 0.85,
+        "status": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "SUP-30"
+      }
+    },
+    {
+      "id": "7dc710a2-ceee-5c74-9ec1-b0a8f4551f87",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Kolhapur Central Collection Centre (Sample)",
+      "attributes": {
+        "facilityType": "collection_centre",
+        "district": "Kolhapur",
+        "latitude": 16.6428,
+        "longitude": 74.2953,
+        "dailyCollectionCapacity": 25500,
+        "currentCollection": 18005,
+        "status": "operational",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "CC-01"
+      }
+    },
+    {
+      "id": "f6c741df-2a3c-5c79-9739-94ee973dc14b",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Kolhapur West Collection Centre (Sample)",
+      "attributes": {
+        "facilityType": "collection_centre",
+        "district": "Kolhapur",
+        "latitude": 16.6948,
+        "longitude": 74.1745,
+        "dailyCollectionCapacity": 16000,
+        "currentCollection": 10921,
+        "status": "operational",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "CC-02"
+      }
+    },
+    {
+      "id": "bb683e7e-ae13-5693-8b39-c6fcf6e20752",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Karveer Collection Centre (Sample)",
+      "attributes": {
+        "facilityType": "collection_centre",
+        "district": "Kolhapur",
+        "latitude": 16.787,
+        "longitude": 74.1137,
+        "dailyCollectionCapacity": 21500,
+        "currentCollection": 15209,
+        "status": "operational",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "CC-03"
+      }
+    },
+    {
+      "id": "18eec817-fbcf-5d03-92c0-2e2cb99a482c",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Kolhapur South Collection Centre (Sample)",
+      "attributes": {
+        "facilityType": "collection_centre",
+        "district": "Kolhapur",
+        "latitude": 16.7753,
+        "longitude": 74.3092,
+        "dailyCollectionCapacity": 12500,
+        "currentCollection": 9224,
+        "status": "operational",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "CC-04"
+      }
+    },
+    {
+      "id": "5eb8997b-be08-5fd5-9fab-5d551606e344",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Sangli Central Collection Centre (Sample)",
+      "attributes": {
+        "facilityType": "collection_centre",
+        "district": "Sangli",
+        "latitude": 16.8536,
+        "longitude": 74.4948,
+        "dailyCollectionCapacity": 11500,
+        "currentCollection": 7983,
+        "status": "operational",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "CC-05"
+      }
+    },
+    {
+      "id": "6ba2c099-edcf-53df-9710-95509d61041d",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Sangli East Collection Centre (Sample)",
+      "attributes": {
+        "facilityType": "collection_centre",
+        "district": "Sangli",
+        "latitude": 16.861,
+        "longitude": 74.5171,
+        "dailyCollectionCapacity": 17000,
+        "currentCollection": 11154,
+        "status": "operational",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "CC-06"
+      }
+    },
+    {
+      "id": "5e6c6eaf-d017-52c7-91a1-3850d8dced01",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Sangli West Collection Centre (Sample)",
+      "attributes": {
+        "facilityType": "collection_centre",
+        "district": "Sangli",
+        "latitude": 16.8036,
+        "longitude": 74.4408,
+        "dailyCollectionCapacity": 9500,
+        "currentCollection": 6512,
+        "status": "operational",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "CC-07"
+      }
+    },
+    {
+      "id": "e1ee1f6b-f0fd-5478-8859-c107fcb08c64",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Sangli North Collection Centre (Sample)",
+      "attributes": {
+        "facilityType": "collection_centre",
+        "district": "Sangli",
+        "latitude": 16.9027,
+        "longitude": 74.6841,
+        "dailyCollectionCapacity": 10000,
+        "currentCollection": 6013,
+        "status": "operational",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "CC-08"
+      }
+    },
+    {
+      "id": "facd24ab-97c1-520c-8a7f-422433566825",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Satara Collection Centre (Sample)",
+      "attributes": {
+        "facilityType": "collection_centre",
+        "district": "Satara",
+        "latitude": 17.8035,
+        "longitude": 73.9546,
+        "dailyCollectionCapacity": 12000,
+        "currentCollection": 8788,
+        "status": "operational",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "CC-09"
+      }
+    },
+    {
+      "id": "4a6cae56-d826-53a8-8ceb-58ed111d344a",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Satara South Collection Centre (Sample)",
+      "attributes": {
+        "facilityType": "collection_centre",
+        "district": "Satara",
+        "latitude": 17.626,
+        "longitude": 74.0377,
+        "dailyCollectionCapacity": 18000,
+        "currentCollection": 12710,
+        "status": "operational",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "CC-10"
+      }
+    },
+    {
+      "id": "729a451d-50b1-599d-80bd-80ff8017784a",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Kolhapur Chilling Centre-1 (Sample)",
+      "attributes": {
+        "facilityType": "chilling_centre",
+        "district": "Kolhapur",
+        "storageCapacityLitres": 45000,
+        "currentStockLitres": 17700,
+        "status": "operational",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "CH-01"
+      }
+    },
+    {
+      "id": "54f9cae5-9122-50dd-8c3d-79dd6b116678",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Kolhapur Chilling Centre-2 (Sample)",
+      "attributes": {
+        "facilityType": "chilling_centre",
+        "district": "Kolhapur",
+        "storageCapacityLitres": 43000,
+        "currentStockLitres": 13500,
+        "status": "operational",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "CH-02"
+      }
+    },
+    {
+      "id": "fe403ea7-7cef-5577-83ca-de67a6006678",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Sangli Chilling Centre-1 (Sample)",
+      "attributes": {
+        "facilityType": "chilling_centre",
+        "district": "Sangli",
+        "storageCapacityLitres": 37000,
+        "currentStockLitres": 11600,
+        "status": "operational",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "CH-03"
+      }
+    },
+    {
+      "id": "4cd44cff-3a15-51d9-9fe5-0da73ca02299",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Sangli Chilling Centre-2 (Sample)",
+      "attributes": {
+        "facilityType": "chilling_centre",
+        "district": "Sangli",
+        "storageCapacityLitres": 23000,
+        "currentStockLitres": 7800,
+        "status": "operational",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "CH-04"
+      }
+    },
+    {
+      "id": "34da4dcc-bdc7-59d3-a2bd-c31f52e7d115",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Satara Chilling Centre-1 (Sample)",
+      "attributes": {
+        "facilityType": "chilling_centre",
+        "district": "Satara",
+        "storageCapacityLitres": 40000,
+        "currentStockLitres": 14500,
+        "status": "operational",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "CH-05"
+      }
+    },
+    {
+      "id": "a5eec69f-d198-51c4-9050-c8b56e64b916",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Kolhapur Dairy Processing Plant (Sample)",
+      "attributes": {
+        "facilityType": "processing_plant",
+        "district": "Kolhapur",
+        "processingCapacityLitresPerDay": 90000,
+        "currentCapacityUtilisation": 75.1,
+        "status": "operational",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "PL-01"
+      }
+    },
+    {
+      "id": "f9a94584-c1f2-519c-935f-63870604466b",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Sangli Dairy Processing Plant (Sample)",
+      "attributes": {
+        "facilityType": "processing_plant",
+        "district": "Sangli",
+        "processingCapacityLitresPerDay": 37000,
+        "currentCapacityUtilisation": 81.3,
+        "status": "operational",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "PL-02"
+      }
+    },
+    {
+      "id": "40dfe8e3-8d79-51d3-8c07-4affe0caf97b",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Kolhapur Distribution Centre",
+      "attributes": {
+        "facilityType": "distribution_centre",
+        "city": "Kolhapur",
+        "district": "Kolhapur",
+        "dailyDemandLitres": 22000,
+        "currentStockLitres": 10100,
+        "priority": "high",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "DC-01"
+      }
+    },
+    {
+      "id": "4a0c814f-27b8-5d0a-bf42-835b4469909b",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Sangli Distribution Centre",
+      "attributes": {
+        "facilityType": "distribution_centre",
+        "city": "Sangli",
+        "district": "Sangli",
+        "dailyDemandLitres": 14500,
+        "currentStockLitres": 5500,
+        "priority": "high",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "DC-02"
+      }
+    },
+    {
+      "id": "817675c0-5b68-5723-be9a-97f2a77ac740",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Pune Distribution Centre",
+      "attributes": {
+        "facilityType": "distribution_centre",
+        "city": "Pune",
+        "district": "Pune",
+        "dailyDemandLitres": 25000,
+        "currentStockLitres": 14050,
+        "priority": "medium",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "DC-03"
+      }
+    },
+    {
+      "id": "e0cf3f1a-57e1-5b36-b9c6-8cbc66d0b235",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "type": "facility",
+      "name": "Mumbai Distribution Centre",
+      "attributes": {
+        "facilityType": "distribution_centre",
+        "city": "Mumbai",
+        "district": "Mumbai",
+        "dailyDemandLitres": 30000,
+        "currentStockLitres": 11150,
+        "priority": "medium",
+        "dataSource": "RECONSTRUCTED_SAMPLE",
+        "sourceId": "DC-04"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "37d71bf1-34aa-5d5f-8e35-fc4c5324ef80",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "2771b2dc-a0c7-55f1-a625-a3a42a951a61",
+      "targetId": "7dc710a2-ceee-5c74-9ec1-b0a8f4551f87",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "e514bd1f-1a6a-5007-bfb2-0bbb9c24dcb5",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "047e7f64-15ed-564a-92cd-55705719f26e",
+      "targetId": "7dc710a2-ceee-5c74-9ec1-b0a8f4551f87",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "22953988-9741-5c2b-88e4-48cf6cfa62c3",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "06fecbc0-3823-52b8-81b8-fa2cf13e0b5e",
+      "targetId": "7dc710a2-ceee-5c74-9ec1-b0a8f4551f87",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "05d78022-94ca-5c20-ae90-1007ab84c99f",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "dffcc7a1-f972-5ae3-9dbb-765f95c51216",
+      "targetId": "7dc710a2-ceee-5c74-9ec1-b0a8f4551f87",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "18d128aa-6411-5416-a7ff-eefa5eab4814",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "a0b6d5e0-55ac-5f9d-8972-6448954dc779",
+      "targetId": "f6c741df-2a3c-5c79-9739-94ee973dc14b",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "910ebaa5-44c7-5f3b-a7ac-3af3bc0769c2",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "73001440-35c8-58b9-8c47-5bc90f943b43",
+      "targetId": "f6c741df-2a3c-5c79-9739-94ee973dc14b",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "1704ea49-b0c7-58a8-87ff-e6bed4d07bc1",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "3195c238-c061-5038-89e5-2c5bc89d1273",
+      "targetId": "f6c741df-2a3c-5c79-9739-94ee973dc14b",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "1fb0787b-e28d-500e-a733-a4ccf09a37c2",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "b4769886-a854-5cc3-9c9e-27479c92833a",
+      "targetId": "f6c741df-2a3c-5c79-9739-94ee973dc14b",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "0086167f-33a2-519b-b3aa-8e548fdf5516",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "f265c087-2d38-59c1-ab66-04d5f0172806",
+      "targetId": "bb683e7e-ae13-5693-8b39-c6fcf6e20752",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "c272ca6c-fba2-5f13-8155-b9751718282b",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "8451aab8-af4a-5bc8-8b08-cded5fe3a97b",
+      "targetId": "bb683e7e-ae13-5693-8b39-c6fcf6e20752",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "e08caf33-6252-5547-99e5-71b76755103c",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "c218ae0b-3655-5540-a299-701799e8d992",
+      "targetId": "bb683e7e-ae13-5693-8b39-c6fcf6e20752",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "fa2c75c5-16ad-53a5-b19b-ef322a004816",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "922026c6-df4d-53f0-8b52-7fa9300ff631",
+      "targetId": "18eec817-fbcf-5d03-92c0-2e2cb99a482c",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "e91b864a-d2f9-5390-bcb8-ff2230920367",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "7147a3dd-e752-55d6-baba-3ebd3e028b42",
+      "targetId": "18eec817-fbcf-5d03-92c0-2e2cb99a482c",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "c2f8c831-6c69-5105-9bc4-32d81406fadc",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "737f6082-c934-5428-bfce-5532d086b68f",
+      "targetId": "18eec817-fbcf-5d03-92c0-2e2cb99a482c",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "28e8dae7-73ff-5205-b81e-b230a167188c",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "f5e35c91-5d00-5faa-a6d5-31145fda782e",
+      "targetId": "5eb8997b-be08-5fd5-9fab-5d551606e344",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "fff671e4-3afe-5ea4-b7b6-6fe8412be226",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "f43cc9f7-95e4-52e4-b543-ce817eec2afa",
+      "targetId": "5eb8997b-be08-5fd5-9fab-5d551606e344",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "9586591b-52cd-5a15-ae89-edcbc0a224fd",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "f037b97d-f479-558b-b091-2809f277f4a7",
+      "targetId": "5eb8997b-be08-5fd5-9fab-5d551606e344",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "4a918f6c-cb03-5d35-8e8a-8b8f270e50e4",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "ea6304a9-b2ce-5d9c-9a32-4de6e30f530b",
+      "targetId": "6ba2c099-edcf-53df-9710-95509d61041d",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "578cd61a-440a-5e80-9af3-9c56656bcafb",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "0a356f46-fa23-5177-a9fc-b68392c182d9",
+      "targetId": "6ba2c099-edcf-53df-9710-95509d61041d",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "a8e579f9-0d49-506a-a13f-4635876c9fbd",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "9279dda9-c70e-5480-ab82-6b2f3f7eeb34",
+      "targetId": "6ba2c099-edcf-53df-9710-95509d61041d",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "4d8cf44b-7553-554e-877e-86084670dc5f",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "b93a7492-7292-58ac-8bfe-c0c02842daf0",
+      "targetId": "5e6c6eaf-d017-52c7-91a1-3850d8dced01",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "cd6b2100-c67b-5ca4-8960-2fb7d3daa18d",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "8ff1b376-ade4-5cd8-a417-0f56b7e8112c",
+      "targetId": "5e6c6eaf-d017-52c7-91a1-3850d8dced01",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "98512723-417a-53af-8b73-7c893ecea357",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "ff08921c-de0d-575e-a6d9-3e8fb1223ad3",
+      "targetId": "e1ee1f6b-f0fd-5478-8859-c107fcb08c64",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "c58fe6b0-86aa-5c1d-97e8-ffec18172cdf",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "4d1f67c6-2966-58d4-bd9c-f6b4ff142538",
+      "targetId": "e1ee1f6b-f0fd-5478-8859-c107fcb08c64",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "1e1ebf09-e510-5327-b867-d3182d4da90d",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "527d76b1-7ed2-5c27-a9af-2967291b5f06",
+      "targetId": "facd24ab-97c1-520c-8a7f-422433566825",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "0ddab75d-8153-54ab-989d-08f784774822",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "40213837-f68a-5bac-b7a7-550d6bcf4b83",
+      "targetId": "facd24ab-97c1-520c-8a7f-422433566825",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "3285ce7b-aff5-57a9-a471-2a3797cec09d",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "9e740c7d-e536-5f13-b7bc-6de1eb4f6f11",
+      "targetId": "facd24ab-97c1-520c-8a7f-422433566825",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "4fcbce70-c818-5c3e-b065-224e45589239",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "34e98f44-8310-5178-8601-9eec06389655",
+      "targetId": "4a6cae56-d826-53a8-8ceb-58ed111d344a",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "6b619e39-3d96-5b34-a2cb-3be782cc0a4e",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "ba051dde-6796-5c01-971a-bfd8a26205f1",
+      "targetId": "4a6cae56-d826-53a8-8ceb-58ed111d344a",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "a3384bb5-9223-50fc-9a75-9d545801a37f",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "20274da8-8ab3-55b3-a338-fbbc30d23451",
+      "targetId": "4a6cae56-d826-53a8-8ceb-58ed111d344a",
+      "relationshipType": "supplies",
+      "attributes": {
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "16c71a17-344e-5e1a-8a81-e15b27dc8398",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "7dc710a2-ceee-5c74-9ec1-b0a8f4551f87",
+      "targetId": "729a451d-50b1-599d-80bd-80ff8017784a",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.020833333333333332,
+      "attributes": {
+        "routeId": "RT-001",
+        "distanceKm": 18,
+        "estimatedTravelTimeHours": 0.5,
+        "transportCost": 1600,
+        "floodRiskLevel": "high",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "22a3bc37-4a36-5393-90fb-74a404062877",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "f6c741df-2a3c-5c79-9739-94ee973dc14b",
+      "targetId": "729a451d-50b1-599d-80bd-80ff8017784a",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.020833333333333332,
+      "attributes": {
+        "routeId": "RT-002",
+        "distanceKm": 17,
+        "estimatedTravelTimeHours": 0.5,
+        "transportCost": 1600,
+        "floodRiskLevel": "high",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "c80fefdc-eb90-58c9-ab4d-e05caad79b15",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "bb683e7e-ae13-5693-8b39-c6fcf6e20752",
+      "targetId": "54f9cae5-9122-50dd-8c3d-79dd6b116678",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.020833333333333332,
+      "attributes": {
+        "routeId": "RT-003",
+        "distanceKm": 13,
+        "estimatedTravelTimeHours": 0.5,
+        "transportCost": 1400,
+        "floodRiskLevel": "medium",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "d01d5ba0-43ed-54d0-aaff-cfcb4c89ebcd",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "18eec817-fbcf-5d03-92c0-2e2cb99a482c",
+      "targetId": "54f9cae5-9122-50dd-8c3d-79dd6b116678",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.020833333333333332,
+      "attributes": {
+        "routeId": "RT-004",
+        "distanceKm": 17,
+        "estimatedTravelTimeHours": 0.5,
+        "transportCost": 1600,
+        "floodRiskLevel": "high",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "93ffb3f2-5a6f-5dd3-83b9-1f241383cfb1",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "5eb8997b-be08-5fd5-9fab-5d551606e344",
+      "targetId": "fe403ea7-7cef-5577-83ca-de67a6006678",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.020833333333333332,
+      "attributes": {
+        "routeId": "RT-005",
+        "distanceKm": 15,
+        "estimatedTravelTimeHours": 0.5,
+        "transportCost": 1500,
+        "floodRiskLevel": "high",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "6349ae57-1ff2-5b17-beef-7cccf47af28f",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "6ba2c099-edcf-53df-9710-95509d61041d",
+      "targetId": "fe403ea7-7cef-5577-83ca-de67a6006678",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.024999999999999998,
+      "attributes": {
+        "routeId": "RT-006",
+        "distanceKm": 21,
+        "estimatedTravelTimeHours": 0.6,
+        "transportCost": 1700,
+        "floodRiskLevel": "high",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "4108c966-b14a-50ef-be44-77bef3146723",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "5e6c6eaf-d017-52c7-91a1-3850d8dced01",
+      "targetId": "4cd44cff-3a15-51d9-9fe5-0da73ca02299",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.020833333333333332,
+      "attributes": {
+        "routeId": "RT-007",
+        "distanceKm": 11,
+        "estimatedTravelTimeHours": 0.5,
+        "transportCost": 1300,
+        "floodRiskLevel": "medium",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "ee23cd2b-7cff-551b-a1d7-e82a79660739",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "e1ee1f6b-f0fd-5478-8859-c107fcb08c64",
+      "targetId": "4cd44cff-3a15-51d9-9fe5-0da73ca02299",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.03333333333333333,
+      "attributes": {
+        "routeId": "RT-008",
+        "distanceKm": 27,
+        "estimatedTravelTimeHours": 0.8,
+        "transportCost": 2000,
+        "floodRiskLevel": "medium",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "8daeb5f3-608e-5091-bc9a-2f5b66e248fe",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "facd24ab-97c1-520c-8a7f-422433566825",
+      "targetId": "34da4dcc-bdc7-59d3-a2bd-c31f52e7d115",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.024999999999999998,
+      "attributes": {
+        "routeId": "RT-009",
+        "distanceKm": 22,
+        "estimatedTravelTimeHours": 0.6,
+        "transportCost": 1800,
+        "floodRiskLevel": "medium",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "22d143e3-8a56-5171-9124-e1eef6cc2e10",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "4a6cae56-d826-53a8-8ceb-58ed111d344a",
+      "targetId": "34da4dcc-bdc7-59d3-a2bd-c31f52e7d115",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.020833333333333332,
+      "attributes": {
+        "routeId": "RT-010",
+        "distanceKm": 12,
+        "estimatedTravelTimeHours": 0.5,
+        "transportCost": 1300,
+        "floodRiskLevel": "low",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "85421af7-03b5-5d59-9143-accad5eba1bf",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "729a451d-50b1-599d-80bd-80ff8017784a",
+      "targetId": "a5eec69f-d198-51c4-9050-c8b56e64b916",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.024999999999999998,
+      "attributes": {
+        "routeId": "RT-011",
+        "distanceKm": 25,
+        "estimatedTravelTimeHours": 0.6,
+        "transportCost": 1900,
+        "floodRiskLevel": "medium",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "17b86df5-4a86-5485-9541-35911ccad90d",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "54f9cae5-9122-50dd-8c3d-79dd6b116678",
+      "targetId": "a5eec69f-d198-51c4-9050-c8b56e64b916",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.020833333333333332,
+      "attributes": {
+        "routeId": "RT-012",
+        "distanceKm": 14,
+        "estimatedTravelTimeHours": 0.5,
+        "transportCost": 1400,
+        "floodRiskLevel": "medium",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "2c7896c5-fd96-5cb6-a45d-2f88f0ca67ce",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "34da4dcc-bdc7-59d3-a2bd-c31f52e7d115",
+      "targetId": "a5eec69f-d198-51c4-9050-c8b56e64b916",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.08333333333333333,
+      "attributes": {
+        "routeId": "RT-013",
+        "distanceKm": 90,
+        "estimatedTravelTimeHours": 2,
+        "transportCost": 4800,
+        "floodRiskLevel": "medium",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "befe5bbc-c8f0-53ce-a202-d77235db8396",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "fe403ea7-7cef-5577-83ca-de67a6006678",
+      "targetId": "f9a94584-c1f2-519c-935f-63870604466b",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.020833333333333332,
+      "attributes": {
+        "routeId": "RT-014",
+        "distanceKm": 12,
+        "estimatedTravelTimeHours": 0.5,
+        "transportCost": 1300,
+        "floodRiskLevel": "high",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "5d557eea-3389-557e-b705-e1e8dc97cc66",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "4cd44cff-3a15-51d9-9fe5-0da73ca02299",
+      "targetId": "f9a94584-c1f2-519c-935f-63870604466b",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.020833333333333332,
+      "attributes": {
+        "routeId": "RT-015",
+        "distanceKm": 15,
+        "estimatedTravelTimeHours": 0.5,
+        "transportCost": 1500,
+        "floodRiskLevel": "medium",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "562ee8e7-5295-5664-ba0e-9475057296ce",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "a5eec69f-d198-51c4-9050-c8b56e64b916",
+      "targetId": "40dfe8e3-8d79-51d3-8c07-4affe0caf97b",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.020833333333333332,
+      "attributes": {
+        "routeId": "RT-016",
+        "distanceKm": 19,
+        "estimatedTravelTimeHours": 0.5,
+        "transportCost": 1700,
+        "floodRiskLevel": "medium",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "53c8d3cf-7661-5898-8497-2808134d3def",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "a5eec69f-d198-51c4-9050-c8b56e64b916",
+      "targetId": "817675c0-5b68-5723-be9a-97f2a77ac740",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.19999999999999998,
+      "attributes": {
+        "routeId": "RT-017",
+        "distanceKm": 238,
+        "estimatedTravelTimeHours": 4.8,
+        "transportCost": 11500,
+        "floodRiskLevel": "medium",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "2b387631-7c73-5a76-be4b-217c1c0e9309",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "f9a94584-c1f2-519c-935f-63870604466b",
+      "targetId": "4a0c814f-27b8-5d0a-bf42-835b4469909b",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.04583333333333334,
+      "attributes": {
+        "routeId": "RT-018",
+        "distanceKm": 42,
+        "estimatedTravelTimeHours": 1.1,
+        "transportCost": 2700,
+        "floodRiskLevel": "high",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "f07a4f58-ad87-5a87-9bd7-fcd8a1e9d2cf",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "f9a94584-c1f2-519c-935f-63870604466b",
+      "targetId": "e0cf3f1a-57e1-5b36-b9c6-8cbc66d0b235",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.2916666666666667,
+      "attributes": {
+        "routeId": "RT-019",
+        "distanceKm": 383,
+        "estimatedTravelTimeHours": 7,
+        "transportCost": 18000,
+        "floodRiskLevel": "medium",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    },
+    {
+      "id": "c131d282-3e3c-5120-9280-9946dd244011",
+      "companyId": "11111111-1111-4111-8111-111111111111",
+      "sourceId": "f9a94584-c1f2-519c-935f-63870604466b",
+      "targetId": "817675c0-5b68-5723-be9a-97f2a77ac740",
+      "relationshipType": "ships_to",
+      "leadTimeDays": 0.19583333333333333,
+      "attributes": {
+        "routeId": "RT-020",
+        "distanceKm": 234,
+        "estimatedTravelTimeHours": 4.7,
+        "transportCost": 11300,
+        "floodRiskLevel": "low",
+        "routeStatus": "active",
+        "dataSource": "RECONSTRUCTED_SAMPLE"
+      }
+    }
+  ],
+  "generatedAt": "2026-11-03T13:35:32.849Z"
+}
