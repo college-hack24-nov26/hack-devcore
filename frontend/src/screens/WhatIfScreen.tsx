@@ -1,89 +1,151 @@
 import React, { useState } from 'react';
 import {
-  AlertTriangle,
+  Factory,
   Droplets,
   ZapOff,
   Anchor,
   Sliders,
   Play,
   ArrowRight,
-  Info,
-  CheckCircle,
   RotateCcw,
+  CheckCircle2,
+  ChevronDown,
+  ChevronUp,
+  Info,
 } from 'lucide-react';
-import type { ScenarioTemplate, NavigationSection } from '../types';
-import { mockScenarios, mockEntities } from '../data/mockData';
+import type { NavigationSection } from '../types';
+import { mockEntities } from '../data/mockData';
 
 interface WhatIfScreenProps {
   onNavigate: (section: NavigationSection) => void;
 }
 
+interface ScenarioOption {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.ComponentType<{ className?: string }>;
+  defaultSeverity: 'Low' | 'Medium' | 'High';
+  defaultDays: number;
+}
+
+const scenarioTemplates: ScenarioOption[] = [
+  {
+    id: 'supplier-failure',
+    title: 'Supplier Failure',
+    description: 'Key supplier cannot deliver parts',
+    icon: Factory,
+    defaultSeverity: 'High',
+    defaultDays: 14,
+  },
+  {
+    id: 'factory-flood',
+    title: 'Factory Flood',
+    description: 'Production halted due to natural disaster',
+    icon: Droplets,
+    defaultSeverity: 'Medium',
+    defaultDays: 10,
+  },
+  {
+    id: 'power-outage',
+    title: 'Power Outage',
+    description: 'Grid failure stopping operations for days',
+    icon: ZapOff,
+    defaultSeverity: 'Medium',
+    defaultDays: 7,
+  },
+  {
+    id: 'route-closure',
+    title: 'Shipping Route Closure',
+    description: 'Port congestion or canal blockage',
+    icon: Anchor,
+    defaultSeverity: 'High',
+    defaultDays: 21,
+  },
+  {
+    id: 'custom-scenario',
+    title: 'Custom Scenario',
+    description: 'Define your own disruption parameters',
+    icon: Sliders,
+    defaultSeverity: 'Low',
+    defaultDays: 5,
+  },
+];
+
 export const WhatIfScreen: React.FC<WhatIfScreenProps> = ({ onNavigate }) => {
-  const [selectedTemplateId, setSelectedTemplateId] = useState<string>('scen-1');
-  const [selectedEntityId, setSelectedEntityId] = useState<string>('ent-sup-1'); // Silico Microelectronics
-  const [severity, setSeverity] = useState<'low' | 'moderate' | 'severe'>('severe');
+  const [selectedScenarioId, setSelectedScenarioId] = useState<string>('supplier-failure');
+  const [affectedEntity, setAffectedEntity] = useState<string>('Silico Microelectronics (Tokyo, Japan)');
+  const [severity, setSeverity] = useState<'Low' | 'Medium' | 'High'>('Medium');
   const [durationDays, setDurationDays] = useState<number>(14);
-  const [operationalContext, setOperationalContext] = useState<string>(
-    'Cleanroom power loss followed by automated component fabrication shutdown.'
-  );
+  const [notes, setNotes] = useState<string>('Secondary supplier delay under review');
+  const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
+  const [bufferStockTolerance, setBufferStockTolerance] = useState<string>('Standard (8-14 Days)');
+  const [reroutingPriority, setReroutingPriority] = useState<string>('Cost Optimized');
+
   const [isRunning, setIsRunning] = useState<boolean>(false);
-  const [simulationComplete, setSimulationComplete] = useState<boolean>(false);
+  const [simulationRun, setSimulationRun] = useState<boolean>(true); // default true for immediate preview demo
 
-  const selectedEntity = mockEntities.find((e) => e.id === selectedEntityId) || mockEntities[0];
-
-  const handleSelectTemplate = (template: ScenarioTemplate) => {
-    setSelectedTemplateId(template.id);
-    setDurationDays(template.defaultDowntime);
-    setSeverity(template.defaultSeverity);
+  const handleSelectScenario = (scen: ScenarioOption) => {
+    setSelectedScenarioId(scen.id);
+    setSeverity(scen.defaultSeverity);
+    setDurationDays(scen.defaultDays);
   };
 
   const handleRunSimulation = () => {
     setIsRunning(true);
     setTimeout(() => {
       setIsRunning(false);
-      setSimulationComplete(true);
-    }, 900);
+      setSimulationRun(true);
+    }, 700);
   };
 
-  const getScenarioIcon = (iconName: string) => {
-    switch (iconName) {
-      case 'AlertTriangle':
-        return AlertTriangle;
-      case 'Droplets':
-        return Droplets;
-      case 'ZapOff':
-        return ZapOff;
-      case 'Anchor':
-        return Anchor;
-      case 'Sliders':
-      default:
-        return Sliders;
-    }
+  const handleReset = () => {
+    setSelectedScenarioId('supplier-failure');
+    setSeverity('Medium');
+    setDurationDays(14);
+    setNotes('');
+    setSimulationRun(false);
   };
+
+  const currentTemplate = scenarioTemplates.find((s) => s.id === selectedScenarioId) || scenarioTemplates[0];
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
-      {/* Section 1: Preset Scenario Templates */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <h3 className="text-base font-bold text-slate-900">Preset Scenario Templates</h3>
-            <p className="text-xs text-slate-500">
-              Load verified historical shock profiles or craft a bespoke disruption model
-            </p>
-          </div>
-          <span className="text-xs font-semibold text-slate-500">5 Scenarios Available</span>
+    <div className="space-y-8 max-w-5xl mx-auto">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">What-If Scenarios</h2>
+          <p className="text-slate-600 text-sm mt-1">
+            Simulate supply chain disruptions in 3 simple steps to preview delivery delays and financial impact.
+          </p>
+        </div>
+        <button
+          onClick={handleReset}
+          className="text-xs font-semibold text-slate-500 hover:text-slate-800 flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
+        >
+          <RotateCcw className="w-3.5 h-3.5" />
+          <span>Reset Form</span>
+        </button>
+      </div>
+
+      {/* STEP 1: Choose a scenario */}
+      <div className="space-y-3">
+        <div className="flex items-center gap-2">
+          <span className="w-6 h-6 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center">
+            1
+          </span>
+          <h3 className="text-base font-bold text-slate-900">Choose a scenario</h3>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-          {mockScenarios.map((scen) => {
-            const isSelected = selectedTemplateId === scen.id;
-            const Icon = getScenarioIcon(scen.iconName);
+          {scenarioTemplates.map((scen) => {
+            const isSelected = selectedScenarioId === scen.id;
+            const Icon = scen.icon;
             return (
               <div
                 key={scen.id}
-                onClick={() => handleSelectTemplate(scen)}
-                className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${
+                onClick={() => handleSelectScenario(scen)}
+                className={`p-4 rounded-xl border transition-all cursor-pointer flex flex-col justify-between ${
                   isSelected
                     ? 'border-blue-600 bg-blue-50/50 ring-2 ring-blue-500/20 shadow-xs'
                     : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-2xs'
@@ -92,34 +154,18 @@ export const WhatIfScreen: React.FC<WhatIfScreenProps> = ({ onNavigate }) => {
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <div
-                      className={`w-9 h-9 rounded-xl flex items-center justify-center ${
-                        scen.badgeColor === 'amber'
-                          ? 'bg-amber-100 text-amber-700'
-                          : scen.badgeColor === 'blue'
-                          ? 'bg-blue-100 text-blue-700'
-                          : scen.badgeColor === 'indigo'
-                          ? 'bg-indigo-100 text-indigo-700'
-                          : 'bg-teal-100 text-teal-700'
+                      className={`w-9 h-9 rounded-lg flex items-center justify-center ${
+                        isSelected ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-700'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
                     </div>
                     {isSelected && (
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-600 text-white">
-                        Active
-                      </span>
+                      <CheckCircle2 className="w-4 h-4 text-blue-600" />
                     )}
                   </div>
-                  <h4 className="font-bold text-xs text-slate-900 leading-snug">{scen.title}</h4>
-                  <p className="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">
-                    {scen.description}
-                  </p>
-                </div>
-
-                <div className="mt-3 pt-3 border-t border-slate-100/80">
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 inline-block">
-                    {scen.badgeLabel}
-                  </span>
+                  <h4 className="font-bold text-sm text-slate-900 leading-snug">{scen.title}</h4>
+                  <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">{scen.description}</p>
                 </div>
               </div>
             );
@@ -127,155 +173,161 @@ export const WhatIfScreen: React.FC<WhatIfScreenProps> = ({ onNavigate }) => {
         </div>
       </div>
 
-      {/* Section 2: Interactive Simulation Configuration & Pre-Run Impact Preview */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left Column: Form Builder (7 cols) */}
-        <div className="lg:col-span-7 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-6">
-          <div className="border-b border-slate-100 pb-4 flex items-center justify-between">
-            <div>
-              <h3 className="text-base font-bold text-slate-900">Configure Stress-Test Parameters</h3>
-              <p className="text-xs text-slate-500">
-                Specify origin node, severity drop, and duration to model downstream ripple effects
-              </p>
-            </div>
-            <button
-              onClick={() => {
-                setDurationDays(14);
-                setSeverity('severe');
-                setSimulationComplete(false);
-              }}
-              className="text-xs font-semibold text-slate-500 hover:text-slate-800 flex items-center gap-1 cursor-pointer"
-            >
-              <RotateCcw className="w-3 h-3" />
-              <span>Reset</span>
-            </button>
-          </div>
+      {/* STEP 2: Configure the scenario */}
+      <div className="space-y-3">
+        <div className="flex items-center gap-2">
+          <span className="w-6 h-6 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center">
+            2
+          </span>
+          <h3 className="text-base font-bold text-slate-900">Configure the scenario</h3>
+        </div>
 
-          <div className="space-y-4">
-            {/* Field 1: Affected Entity */}
+        <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {/* Affected Entity */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                Target Node / Point of Origin
+              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                Affected Supplier, Factory, Warehouse, or Route
               </label>
               <select
-                value={selectedEntityId}
-                onChange={(e) => setSelectedEntityId(e.target.value)}
-                className="w-full text-xs bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-900 font-semibold focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                value={affectedEntity}
+                onChange={(e) => setAffectedEntity(e.target.value)}
+                className="w-full text-xs bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-900 font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 cursor-pointer"
               >
                 {mockEntities.map((ent) => (
-                  <option key={ent.id} value={ent.id}>
-                    {ent.name} ({ent.location}, {ent.country}) — {ent.category}
+                  <option key={ent.id} value={`${ent.name} (${ent.location}, ${ent.country})`}>
+                    {ent.name} — {ent.location} ({ent.type.toUpperCase()})
                   </option>
                 ))}
               </select>
-              <p className="text-[11px] text-slate-500 mt-1">
-                Direct downstream dependency: Austin Gigaplant Alpha (Buffer: {selectedEntity.inventoryBufferDays} days)
-              </p>
             </div>
 
-            {/* Field 2: Disruption Severity Magnitude */}
+            {/* Severity: Low, Medium, High */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                Disruption Severity Magnitude
+              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                Severity Level
               </label>
-              <div className="grid grid-cols-3 gap-3">
-                {[
-                  { id: 'low', title: 'Low', desc: '25% Output Drop', sub: 'Transit delays' },
-                  { id: 'moderate', title: 'Moderate', desc: '50% Output Drop', sub: 'Single line halt' },
-                  { id: 'severe', title: 'Severe', desc: '100% Total Shutdown', sub: 'Site non-operational' },
-                ].map((tier) => (
-                  <div
-                    key={tier.id}
-                    onClick={() => setSeverity(tier.id as any)}
-                    className={`p-3 rounded-xl border text-center cursor-pointer transition-all ${
-                      severity === tier.id
-                        ? tier.id === 'severe'
-                          ? 'border-rose-500 bg-rose-50/40 ring-2 ring-rose-500/20'
-                          : tier.id === 'moderate'
-                          ? 'border-amber-500 bg-amber-50/40 ring-2 ring-amber-500/20'
-                          : 'border-blue-500 bg-blue-50/40 ring-2 ring-blue-500/20'
-                        : 'border-slate-200 bg-white hover:border-slate-300'
-                    }`}
-                  >
-                    <div className="font-bold text-xs text-slate-900">{tier.title}</div>
-                    <div className="text-[11px] font-semibold text-slate-700 mt-0.5">{tier.desc}</div>
-                    <div className="text-[10px] text-slate-400 mt-1">{tier.sub}</div>
-                  </div>
-                ))}
+              <div className="grid grid-cols-3 gap-2">
+                {(['Low', 'Medium', 'High'] as const).map((sev) => {
+                  const isSevSelected = severity === sev;
+                  return (
+                    <button
+                      key={sev}
+                      type="button"
+                      onClick={() => setSeverity(sev)}
+                      className={`py-2 text-xs font-semibold rounded-lg border transition-all cursor-pointer ${
+                        isSevSelected
+                          ? sev === 'High'
+                            ? 'bg-rose-600 text-white border-rose-600 shadow-2xs'
+                            : sev === 'Medium'
+                            ? 'bg-blue-600 text-white border-blue-600 shadow-2xs'
+                            : 'bg-emerald-600 text-white border-emerald-600 shadow-2xs'
+                          : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
+                      }`}
+                    >
+                      {sev}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            {/* Field 3: Estimated Duration (Slider + Preset Chips) */}
+            {/* Duration: Number of Days */}
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                  Estimated Outage Duration
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-xs font-semibold text-slate-700">
+                  Estimated Duration
                 </label>
-                <span className="text-sm font-extrabold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full">
-                  {durationDays} Days Outage
+                <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md">
+                  {durationDays} Days
                 </span>
               </div>
               <input
                 type="range"
                 min="1"
-                max="45"
+                max="30"
                 value={durationDays}
                 onChange={(e) => setDurationDays(Number(e.target.value))}
                 className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
               />
-              <div className="flex items-center justify-between text-[11px] text-slate-400 mt-1.5">
-                <span>1 Day</span>
-                <span>14 Days (Standard)</span>
-                <span>45 Days (Protracted)</span>
-              </div>
-
-              {/* Quick Preset Buttons */}
-              <div className="flex items-center gap-1.5 mt-2">
-                {[3, 7, 14, 21, 30].map((days) => (
-                  <button
-                    key={days}
-                    type="button"
-                    onClick={() => setDurationDays(days)}
-                    className={`px-2.5 py-1 text-[11px] rounded-lg font-semibold transition-all cursor-pointer ${
-                      durationDays === days
-                        ? 'bg-blue-600 text-white shadow-2xs'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                    }`}
-                  >
-                    {days}d
-                  </button>
-                ))}
+              <div className="flex items-center justify-between text-[11px] text-slate-400 mt-1">
+                <span>1 day</span>
+                <span>14 days</span>
+                <span>30 days</span>
               </div>
             </div>
 
-            {/* Field 4: Context / Root Cause */}
+            {/* Optional Additional Details */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                Operational Context & Scenario Notes
+              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                Optional Additional Details
               </label>
-              <textarea
-                rows={2}
-                value={operationalContext}
-                onChange={(e) => setOperationalContext(e.target.value)}
-                className="w-full text-xs bg-slate-50 border border-slate-300 rounded-xl p-3 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              <input
+                type="text"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="e.g. secondary supplier delay, transit re-routing"
+                className="w-full text-xs bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
               />
             </div>
           </div>
 
-          {/* Action Trigger */}
-          <div className="pt-2 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="text-xs text-slate-500">
-              Deterministic Graph Engine (Calculates 14-day ripple cascade)
-            </div>
+          {/* Collapsible Advanced Options */}
+          <div className="border-t border-slate-100 pt-3">
+            <button
+              type="button"
+              onClick={() => setShowAdvanced(!showAdvanced)}
+              className="text-xs font-semibold text-slate-600 hover:text-slate-900 flex items-center gap-1 cursor-pointer"
+            >
+              <span>{showAdvanced ? 'Hide Advanced Options' : '+ Advanced Options'}</span>
+              {showAdvanced ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+            </button>
+
+            {showAdvanced && (
+              <div className="mt-3 p-4 bg-slate-50 rounded-xl border border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div>
+                  <label className="block font-semibold text-slate-700 mb-1">
+                    Safety Stock Buffer Tolerance
+                  </label>
+                  <select
+                    value={bufferStockTolerance}
+                    onChange={(e) => setBufferStockTolerance(e.target.value)}
+                    className="w-full bg-white border border-slate-300 rounded-md p-1.5 text-slate-800"
+                  >
+                    <option value="Aggressive (1-7 Days)">Aggressive (1-7 Days)</option>
+                    <option value="Standard (8-14 Days)">Standard (8-14 Days)</option>
+                    <option value="Conservative (15+ Days)">Conservative (15+ Days)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-semibold text-slate-700 mb-1">
+                    Rerouting Priority
+                  </label>
+                  <select
+                    value={reroutingPriority}
+                    onChange={(e) => setReroutingPriority(e.target.value)}
+                    className="w-full bg-white border border-slate-300 rounded-md p-1.5 text-slate-800"
+                  >
+                    <option value="Cost Optimized">Cost Optimized</option>
+                    <option value="Speed Optimized (Air Freight)">Speed Optimized (Air Freight)</option>
+                    <option value="Balanced (Feeder Rail + Hub)">Balanced (Feeder Rail + Hub)</option>
+                  </select>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Single Clear Primary Button */}
+          <div className="pt-2 flex justify-end">
             <button
               onClick={handleRunSimulation}
               disabled={isRunning}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-500/20 transition-all cursor-pointer"
+              className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center gap-2 cursor-pointer"
             >
               {isRunning ? (
                 <>
                   <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  <span>Running Ripple Simulation...</span>
+                  <span>Running Simulation...</span>
                 </>
               ) : (
                 <>
@@ -286,109 +338,94 @@ export const WhatIfScreen: React.FC<WhatIfScreenProps> = ({ onNavigate }) => {
             </button>
           </div>
         </div>
+      </div>
 
-        {/* Right Column: Pre-Run Simulation Readiness & Cascade Scope (5 cols) */}
-        <div className="lg:col-span-5 space-y-4">
-          <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-5">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
-                Pre-Flight Cascade Scope
-              </h4>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
-                Engine Ready
-              </span>
-            </div>
+      {/* STEP 3: Show simulation results */}
+      {simulationRun && (
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="w-6 h-6 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center">
+              3
+            </span>
+            <h3 className="text-base font-bold text-slate-900">Simulation results</h3>
+          </div>
 
-            {/* 2x2 Scope Stats */}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-xl">
-                <div className="text-[10px] font-semibold text-slate-500 uppercase">Impact Origin</div>
-                <div className="text-sm font-bold text-slate-900 mt-1">1 Primary Supplier</div>
-                <div className="text-[10px] text-rose-600 font-semibold">100% loss</div>
+          <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
+              <div>
+                <h4 className="font-bold text-base text-slate-900">
+                  {currentTemplate.title} ({durationDays} Days Outage)
+                </h4>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Target: {affectedEntity}
+                </p>
               </div>
-
-              <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-xl">
-                <div className="text-[10px] font-semibold text-slate-500 uppercase">Downstream At Risk</div>
-                <div className="text-sm font-bold text-slate-900 mt-1">2 Factories, 1 Depot</div>
-                <div className="text-[10px] text-amber-600 font-semibold">Assembly impact</div>
-              </div>
-
-              <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-xl">
-                <div className="text-[10px] font-semibold text-slate-500 uppercase">Buffer Stock</div>
-                <div className="text-sm font-bold text-slate-900 mt-1">8.5 Days Left</div>
-                <div className="text-[10px] text-rose-600 font-semibold">-5.5d deficit</div>
-              </div>
-
-              <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-xl">
-                <div className="text-[10px] font-semibold text-slate-500 uppercase">Resilience Score</div>
-                <div className="text-sm font-bold text-amber-600 mt-1">64 / 100</div>
-                <div className="text-[10px] text-slate-500">Moderate vulnerability</div>
+              <div>
+                <span
+                  className={`text-xs font-bold px-3 py-1 rounded-full ${
+                    severity === 'High'
+                      ? 'bg-rose-100 text-rose-800'
+                      : severity === 'Medium'
+                      ? 'bg-amber-100 text-amber-800'
+                      : 'bg-emerald-100 text-emerald-800'
+                  }`}
+                >
+                  {severity} Impact Disruption
+                </span>
               </div>
             </div>
 
-            {/* Stepped Cascade Propagation Visual */}
-            <div className="space-y-2.5">
-              <div className="text-xs font-bold text-slate-800">Visual Cascade Propagation:</div>
-              <div className="space-y-2">
-                {/* Step 1 */}
-                <div className="p-2.5 rounded-lg bg-rose-50 border border-rose-200 text-xs flex items-center justify-between">
-                  <span className="font-semibold text-rose-900">01. {selectedEntity.name}</span>
-                  <span className="text-[10px] font-bold text-rose-700 bg-rose-100 px-2 py-0.5 rounded">
-                    Day 1: Shutdown
-                  </span>
-                </div>
-                {/* Arrow */}
-                <div className="text-center text-slate-400 text-[10px]">↓ 5.5-day transit ripple shock</div>
-                {/* Step 2 */}
-                <div className="p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-xs flex items-center justify-between">
-                  <span className="font-semibold text-amber-900">02. Austin Gigaplant Alpha</span>
-                  <span className="text-[10px] font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded">
-                    Day 7.5: Buffer Breach
-                  </span>
-                </div>
-                {/* Arrow */}
-                <div className="text-center text-slate-400 text-[10px]">↓ Finished goods delay</div>
-                {/* Step 3 */}
-                <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-xs flex items-center justify-between">
-                  <span className="font-semibold text-slate-800">03. Chicago Depot & Customers</span>
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-200 px-2 py-0.5 rounded">
-                    Day 11: SLA Penalty Risk
-                  </span>
-                </div>
+            {/* 4 Simple Headline Metrics */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="p-4 bg-slate-50 border border-slate-200/80 rounded-xl">
+                <span className="text-xs font-semibold text-slate-500 uppercase">Affected Entities</span>
+                <div className="text-2xl font-bold text-slate-900 mt-1">3 Facilities</div>
+                <div className="text-xs text-slate-500 mt-1">Austin, Munich & Depot</div>
+              </div>
+
+              <div className="p-4 bg-slate-50 border border-slate-200/80 rounded-xl">
+                <span className="text-xs font-semibold text-slate-500 uppercase">Affected Orders</span>
+                <div className="text-2xl font-bold text-slate-900 mt-1">42 Orders</div>
+                <div className="text-xs text-slate-500 mt-1">Commercial customer tier</div>
+              </div>
+
+              <div className="p-4 bg-slate-50 border border-slate-200/80 rounded-xl">
+                <span className="text-xs font-semibold text-slate-500 uppercase">Estimated Delay</span>
+                <div className="text-2xl font-bold text-amber-600 mt-1">+4.5 Days</div>
+                <div className="text-xs text-slate-500 mt-1">Delivery ETA slip</div>
+              </div>
+
+              <div className="p-4 bg-slate-50 border border-slate-200/80 rounded-xl">
+                <span className="text-xs font-semibold text-slate-500 uppercase">Estimated Loss</span>
+                <div className="text-2xl font-bold text-slate-900 mt-1">$380,000</div>
+                <div className="text-xs text-slate-500 mt-1">Unmitigated baseline</div>
               </div>
             </div>
 
-            {/* Informational Callout */}
-            <div className="p-3.5 bg-blue-50 border border-blue-200/80 rounded-xl text-xs text-blue-900 flex items-start gap-2.5">
+            {/* Simple friendly message */}
+            <div className="p-4 bg-blue-50/70 border border-blue-200/60 rounded-xl flex items-start gap-3">
               <Info className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
-              <p className="leading-relaxed">
-                Running this simulation will generate an estimated financial & delivery impact model, 
-                and calculate optimized recovery strategies.
+              <p className="text-xs text-blue-900 leading-relaxed">
+                Production will be paused in 2 assembly lines within 8 days unless safety stock is rerouted. Pre-approved recovery plans are ready for team review.
               </p>
             </div>
 
-            {/* Simulation Complete Banner */}
-            {simulationComplete && (
-              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-900 space-y-2 animate-in fade-in">
-                <div className="flex items-center gap-2 font-bold text-xs">
-                  <CheckCircle className="w-4 h-4 text-emerald-600" />
-                  <span>Simulation Complete!</span>
-                </div>
-                <p className="text-[11px] text-emerald-800">
-                  Estimated impact: +3.4 days delay, $420,000 projected exposure. 3 recovery strategies computed.
-                </p>
-                <button
-                  onClick={() => onNavigate('impact-analysis')}
-                  className="w-full py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition-all flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer"
-                >
-                  <span>View Impact Analysis Model</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
+            {/* Primary Action Button */}
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="text-xs text-slate-500">
+                Recovery plans can reduce delivery delays down to 1.2 days.
               </div>
-            )}
+              <button
+                onClick={() => onNavigate('recovery-planning')}
+                className="w-full sm:w-auto px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>View Recovery Options</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
