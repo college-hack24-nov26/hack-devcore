@@ -122,7 +122,7 @@ export const ReportDisruptionModal: React.FC<ReportDisruptionModalProps> = ({
                 </label>
                 <select
                   value={category}
-                  onChange={(e) => setCategory(e.target.value as any)}
+                  onChange={(e) => setCategory(e.target.value as DisruptionIncident['category'])}
                   className="w-full text-xs bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                 >
                   <option value="Maritime Logistics">Maritime Logistics</option>
