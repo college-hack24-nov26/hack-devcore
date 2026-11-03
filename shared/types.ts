@@ -33,6 +33,18 @@ export type DisruptionType =
 
 export type Severity = "low" | "medium" | "high" | "critical";
 
+/**
+ * Supported recovery strategy types.
+ * The simulation engine should use only these agreed values.
+ */
+export type RecoveryStrategyType =
+  | "alternate_supplier"
+  | "reroute_transport"
+  | "increase_inventory"
+  | "reschedule_production"
+  | "reduce_demand"
+  | "custom";
+
 /* ---------------- GRAPH STRUCTURES ---------------- */
 
 export interface GraphNode {
@@ -112,6 +124,10 @@ export interface FinancialImpact {
   bestCase: number | null;
   expectedCase: number | null;
   worstCase: number | null;
+
+  /**
+   * ISO 4217 currency code, e.g. INR, USD, EUR.
+   */
   currency: string;
 }
 
@@ -128,8 +144,20 @@ export interface ImpactResult {
   /** Number of impacted orders. */
   impactedOrders: number;
 
+  /**
+   * Estimated inventory shortage quantity in the applicable
+   * material's configured unit of measure (UOM).
+   * Null when the quantity or unit is unavailable.
+   */
   inventoryShortage: number | null;
+
+  /**
+   * Estimated production loss quantity in the applicable
+   * production or product unit of measure (UOM).
+   * Null when the quantity or unit is unavailable.
+   */
   estimatedProductionLoss: number | null;
+
   estimatedDelayDays: number | null;
 
   financialImpact: FinancialImpact;
@@ -144,8 +172,14 @@ export interface RecoveryActionDraft {
   actionType: string;
   description: string;
   targetEntityId?: UUID;
+
   estimatedCost?: number | null;
+
+  /**
+   * ISO 4217 currency code, e.g. INR, USD, EUR.
+   */
   currencyCode?: string | null;
+
   estimatedLeadTimeDays?: number | null;
   rationale: string;
 }
@@ -153,10 +187,17 @@ export interface RecoveryActionDraft {
 export interface RecoveryPlanDraft {
   id: UUID;
   name: string;
-  strategyType: string;
+
+  /** One of the agreed RecoveryStrategyType values. */
+  strategyType: RecoveryStrategyType;
+
   description: string;
 
   estimatedCost: number | null;
+
+  /**
+   * ISO 4217 currency code, e.g. INR, USD, EUR.
+   */
   currencyCode: string;
 
   recoveryTimeHours: number | null;
@@ -172,6 +213,7 @@ export interface RecoveryPlanDraft {
   assumptions: string[];
   warnings: string[];
 
+  /** Recovery plans always require human approval. */
   requiresHumanApproval: true;
 }
 

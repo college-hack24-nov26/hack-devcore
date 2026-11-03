@@ -6,7 +6,7 @@
   "simulationMode": "hypothetical",
   "impact": {
     "affectedEntityIds": [
-      "	550e8400-e29b-41d4-a716-446655440003",
+      "550e8400-e29b-41d4-a716-446655440003",
       "550e8400-e29b-41d4-a716-446655440004",
       "550e8400-e29b-41d4-a716-446655440005"
     ],
@@ -44,7 +44,7 @@
           "id": "550e8400-e29b-41d4-a716-446655440007",
           "actionType": "supplier_switch",
           "description": "Evaluate and activate an alternative supplier.",
-          "targetEntityId": "supplier-001",
+          "targetEntityId": "550e8400-e29b-41d4-a716-446655440003",
           "estimatedCost": null,
           "currencyCode": "INR",
           "estimatedLeadTimeDays": null,
