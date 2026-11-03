@@ -230,7 +230,7 @@ export interface ImpactResult {
   affectedSuppliers: number;
   affectedFacilities: number;
   affectedWarehouses: number;
-  impactedOrders: number;
+  impactedOrders: number | null;
   inventoryShortage: number | null;
   estimatedProductionLoss: number | null;
   estimatedDelayDays: number | null;
@@ -243,7 +243,10 @@ export interface ImpactResult {
 
 -   `affectedEntityIds` contains UUIDs for affected graph entities.
 -   The `affectedEntities`, `affectedSuppliers`, `affectedFacilities`,
-    `affectedWarehouses`, and `impactedOrders` fields are counts.
+    The `affectedEntities`, `affectedSuppliers`, `affectedFacilities`, and
+    `affectedWarehouses` fields are counts. `impactedOrders` is a count when
+    order data is available, and null when order data is unavailable.
+    A value of 0 means order data was available and no orders were impacted.
 -   `inventoryShortage` is a quantity, not a count of entities. Its unit
     must be made explicit for the relevant material/product; do not
     assume one universal unit.
