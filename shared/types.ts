@@ -6,6 +6,11 @@
 
 export type UUID = string;
 
+export interface SimulationContext {
+  simulationId: UUID;
+  scenarioId: UUID;
+}
+
 export type MembershipRole = "owner" | "admin" | "analyst" | "viewer";
 
 export type EntityType =
@@ -141,8 +146,8 @@ export interface ImpactResult {
   affectedFacilities: number;
   affectedWarehouses: number;
 
-  /** Number of impacted orders. */
-  impactedOrders: number;
+  /** Number of impacted orders. Null when order data is unavailable. */
+  impactedOrders: number | null;
 
   /**
    * Estimated inventory shortage quantity in the applicable
