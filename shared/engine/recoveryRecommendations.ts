@@ -2,6 +2,7 @@
 import type {
   GraphSnapshot,
   ScenarioInput,
+  SimulationContext,
   RecoveryPlanDraft,
   RecoveryActionDraft,
   RecoveryStrategyType,
@@ -31,8 +32,8 @@ function getNumber(
     : null;
 }
 
-// Generates stable UUID-shaped identifiers for draft records.
-// These identifiers are for record identity, not security.
+// Generates deterministic UUID-shaped identifiers.
+// IDs are scoped to a simulation run, not used for security.
 function createStableId(seed: string): UUID {
   const hash = (input: string, initial: number): string => {
     let value = initial;
@@ -54,6 +55,7 @@ function createStableId(seed: string): UUID {
 
 function createPlan(
   scenario: ScenarioInput,
+  context: SimulationContext,
   strategyType: RecoveryStrategyType,
   targetId: UUID,
   description: string,
@@ -64,7 +66,14 @@ function createPlan(
   assumptions: string[] = [],
   warnings: string[] = []
 ): RecoveryPlanDraft {
-  const seed = `${scenario.companyId}:${scenario.name}:${scenario.startAt}:${strategyType}:${targetId}`;
+  const seed = [
+    context.simulationId,
+    scenario.companyId,
+    scenario.name,
+    scenario.startAt,
+    strategyType,
+    targetId,
+  ].join(":");
 
   const action: RecoveryActionDraft = {
     id: createStableId(`${seed}:action`),
@@ -111,7 +120,8 @@ export function generateRecoveryRecommendations(
   graph: GraphSnapshot,
   scenario: ScenarioInput,
   propagation: DisruptionPropagationResult,
-  impact: ImpactResult
+  impact: ImpactResult,
+  context: SimulationContext
 ): RecoveryRecommendationResult {
   const recoveryPlans: RecoveryPlanDraft[] = [];
   const assumptions: string[] = [];
@@ -131,9 +141,11 @@ export function generateRecoveryRecommendations(
         event.targetKind === "node" &&
         event.targetType === "supplier"
     )
-    .map((event) => graph.nodes.find(
-      (node) => node.id === event.targetId && node.type === "supplier"
-    ))
+    .map((event) =>
+      graph.nodes.find(
+        (node) => node.id === event.targetId && node.type === "supplier"
+      )
+    )
     .filter((node) => node !== undefined);
 
   for (const failedSupplier of failedSuppliers) {
@@ -152,14 +164,16 @@ export function generateRecoveryRecommendations(
     });
 
     if (candidates.length > 0) {
-      const bestCandidate = candidates.sort((a, b) =>
-        (getNumber(b.attributes, "reliabilityScore") ?? 0) -
-        (getNumber(a.attributes, "reliabilityScore") ?? 0)
+      const bestCandidate = candidates.sort(
+        (a, b) =>
+          (getNumber(b.attributes, "reliabilityScore") ?? 0) -
+          (getNumber(a.attributes, "reliabilityScore") ?? 0)
       )[0];
 
       recoveryPlans.push(
         createPlan(
           scenario,
+          context,
           "alternate_supplier",
           bestCandidate.id,
           `Consider ${bestCandidate.name} as an alternative to ${failedSupplier.name}.`,
@@ -186,9 +200,9 @@ export function generateRecoveryRecommendations(
   // 2. Alternative transport route recommendations.
   const failedRoutes = scenario.events
     .filter((event) => event.targetKind === "edge")
-    .map((event) => graph.edges.find(
-      (edge) => edge.id === event.targetId
-    ))
+    .map((event) =>
+      graph.edges.find((edge) => edge.id === event.targetId)
+    )
     .filter((edge) => edge !== undefined);
 
   for (const failedRoute of failedRoutes) {
@@ -214,6 +228,7 @@ export function generateRecoveryRecommendations(
       recoveryPlans.push(
         createPlan(
           scenario,
+          context,
           "reroute_transport",
           alternative.id,
           "Consider using an alternative active transport connection.",
@@ -263,6 +278,7 @@ export function generateRecoveryRecommendations(
       recoveryPlans.push(
         createPlan(
           scenario,
+          context,
           "increase_inventory",
           facility.id,
           `Consider increasing safety stock at ${facility.name}.`,
@@ -298,6 +314,7 @@ export function generateRecoveryRecommendations(
       recoveryPlans.push(
         createPlan(
           scenario,
+          context,
           "reschedule_production",
           plant.id,
           `Review and reschedule production at ${plant.name}.`,
@@ -341,6 +358,7 @@ export function generateRecoveryRecommendations(
       recoveryPlans.push(
         createPlan(
           scenario,
+          context,
           "reduce_demand",
           facility.id,
           `Prioritize essential demand at ${facility.name}.`,

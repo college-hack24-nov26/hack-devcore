@@ -38,13 +38,13 @@ export function simulateScenario(
   );
 
   // Step 4: Generate recovery recommendations.
-  const recovery = generateRecoveryRecommendations(
+    const recovery = generateRecoveryRecommendations(
     graph,
     scenario,
     propagation,
-    impactAnalysis.impact
-  );
-
+    impactAnalysis.impact,
+    context
+    );
   // Step 5: Combine assumptions and warnings.
   const assumptions = [
     ...impactAnalysis.assumptions,
