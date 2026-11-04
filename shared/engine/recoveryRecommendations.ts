@@ -32,8 +32,6 @@ function getNumber(
     : null;
 }
 
-// Generates deterministic UUID-shaped identifiers.
-// IDs are scoped to a simulation run, not used for security.
 function createStableId(seed: string): UUID {
   const hash = (input: string, initial: number): string => {
     let value = initial;
@@ -164,11 +162,16 @@ export function generateRecoveryRecommendations(
     });
 
     if (candidates.length > 0) {
-      const bestCandidate = candidates.sort(
+      const bestCandidate = [...candidates].sort(
         (a, b) =>
           (getNumber(b.attributes, "reliabilityScore") ?? 0) -
           (getNumber(a.attributes, "reliabilityScore") ?? 0)
       )[0];
+
+      const recordedSupply = getNumber(
+        bestCandidate.attributes,
+        "dailySupplyLitres"
+      );
 
       recoveryPlans.push(
         createPlan(
@@ -177,31 +180,39 @@ export function generateRecoveryRecommendations(
           "alternate_supplier",
           bestCandidate.id,
           `Consider ${bestCandidate.name} as an alternative to ${failedSupplier.name}.`,
-          "The candidate is active, has matching milk type and has recorded daily supply capacity.",
+          "The candidate is active, has matching milk type and has recorded daily supply data. Spare capacity has not been established.",
           getRisk(scenario, failedSupplier.id),
           "conditional",
           `Verify available supply and establish a supply arrangement with ${bestCandidate.name}.`,
           [
-            "Milk type compatibility is based on the graph attributes.",
-            "Supplier availability and willingness have not been independently verified.",
+            "Milk type compatibility is based on graph attributes.",
+            `Recorded daily supply: ${recordedSupply} litres. This represents recorded supply, not verified spare capacity.`,
           ],
           [
-            "Existing capacity commitments and transport feasibility must be checked before approval.",
+            "Existing supply commitments, actual spare capacity, supplier willingness and transport feasibility must be verified before approval.",
           ]
         )
       );
     } else {
       warnings.push(
-        `No unaffected active supplier with matching milk type was found for ${failedSupplier.name}.`
+        `No unaffected active supplier with matching milk type and recorded daily supply data was found for ${failedSupplier.name}.`
       );
     }
   }
 
   // 2. Alternative transport route recommendations.
   const failedRoutes = scenario.events
-    .filter((event) => event.targetKind === "edge")
+    .filter(
+      (event) =>
+        event.targetKind === "edge" &&
+        event.type === "route_closure"
+    )
     .map((event) =>
-      graph.edges.find((edge) => edge.id === event.targetId)
+      graph.edges.find(
+        (edge) =>
+          edge.id === event.targetId &&
+          edge.relationshipType === "ships_to"
+      )
     )
     .filter((edge) => edge !== undefined);
 
@@ -219,11 +230,16 @@ export function generateRecoveryRecommendations(
     });
 
     if (alternatives.length > 0) {
-      const alternative = alternatives.sort(
+      const alternative = [...alternatives].sort(
         (a, b) =>
           (getNumber(a.attributes ?? {}, "distanceKm") ?? Infinity) -
           (getNumber(b.attributes ?? {}, "distanceKm") ?? Infinity)
       )[0];
+
+      const distance = getNumber(
+        alternative.attributes ?? {},
+        "distanceKm"
+      );
 
       recoveryPlans.push(
         createPlan(
@@ -232,26 +248,29 @@ export function generateRecoveryRecommendations(
           "reroute_transport",
           alternative.id,
           "Consider using an alternative active transport connection.",
-          "An unaffected active transport connection exists between the same facilities.",
-          "medium",
+          "An unaffected active transport connection exists between the same source and destination.",
+          getRisk(scenario, failedRoute.id),
           "conditional",
           "Validate the alternative route and transport availability before rerouting.",
           [
-            "Route feasibility is based on graph connectivity and route status.",
+            "Alternative route selection is based on graph connectivity and recorded route status.",
+            distance === null
+              ? "Alternative route distance is unavailable."
+              : `Recorded alternative route distance: ${distance} km.`,
           ],
           [
-            "Actual vehicle availability, road conditions and transport capacity require verification.",
+            "Vehicle availability, road conditions, transport capacity and actual route accessibility require verification.",
           ]
         )
       );
     } else {
       warnings.push(
-        `No parallel active alternative route was found for disrupted route ${failedRoute.id}.`
+        `No unaffected active parallel transport route was found for disrupted route ${failedRoute.id}.`
       );
     }
   }
 
-  // 3. Increase inventory recommendations.
+  // 3. Inventory replenishment recommendations.
   const inventoryFacilities = affectedNodes.filter((node) => {
     if (node.type !== "facility") return false;
 
@@ -272,32 +291,33 @@ export function generateRecoveryRecommendations(
       "currentStockLitres"
     )!;
 
-    const availableSpace = Math.max(0, capacity - stock);
+    const storageHeadroom = Math.max(0, capacity - stock);
 
-    if (availableSpace > 0) {
+    if (storageHeadroom > 0) {
       recoveryPlans.push(
         createPlan(
           scenario,
           context,
           "increase_inventory",
           facility.id,
-          `Consider increasing safety stock at ${facility.name}.`,
-          `The facility has approximately ${availableSpace} litres of recorded unused storage capacity.`,
+          `Review inventory replenishment options at ${facility.name}.`,
+          `The facility has approximately ${storageHeadroom} litres of recorded unused storage capacity. This does not establish available inventory or incoming supply.`,
           getRisk(scenario, facility.id),
           "conditional",
-          "Evaluate additional inventory procurement within the available storage capacity.",
+          "Evaluate replenishment options within the facility's recorded storage headroom.",
           [
-            "Available storage is calculated as storage capacity minus current stock.",
+            "Storage headroom is calculated as recorded storage capacity minus current stock.",
+            "Storage headroom is not equivalent to available inventory.",
           ],
           [
-            "Incoming supply, procurement cost, material compatibility and shelf life must be verified.",
+            "Incoming supply, procurement cost, material compatibility, supplier availability and shelf life must be verified.",
           ]
         )
       );
     }
   }
 
-  // 4. Reschedule production recommendations.
+  // 4. Production rescheduling recommendations.
   const affectedProcessingPlants = affectedNodes.filter(
     (node) =>
       node.type === "facility" &&
@@ -317,18 +337,23 @@ export function generateRecoveryRecommendations(
           context,
           "reschedule_production",
           plant.id,
-          `Review and reschedule production at ${plant.name}.`,
-          "The processing facility is affected by the simulated disruption and has recorded daily processing capacity.",
+          `Review production rescheduling options at ${plant.name}.`,
+          "The affected processing facility has recorded daily processing capacity. Available spare capacity has not been established.",
           getRisk(scenario, plant.id),
           "conditional",
-          "Review production schedules and shift available production to unaffected time windows or facilities.",
+          "Review production schedules and investigate whether production can be shifted to unaffected time windows or facilities.",
           [
             `Recorded daily processing capacity: ${capacity} litres.`,
+            "Recorded processing capacity does not establish unused or transferable capacity.",
           ],
           [
-            "Actual spare capacity, workforce availability and production schedules are not available in the current graph.",
+            "Spare capacity, workforce availability, equipment condition, production schedules and alternative facility compatibility require verification.",
           ]
         )
+      );
+    } else {
+      warnings.push(
+        `Production rescheduling could not be assessed for ${plant.name} because recorded processing capacity is unavailable.`
       );
     }
   }
@@ -361,16 +386,18 @@ export function generateRecoveryRecommendations(
           context,
           "reduce_demand",
           facility.id,
-          `Prioritize essential demand at ${facility.name}.`,
+          `Review essential demand prioritization at ${facility.name}.`,
           "Recorded daily demand exceeds current inventory, indicating potential supply pressure.",
           getRisk(scenario, facility.id),
           "conditional",
           "Review customer priorities and consider allocating available inventory to essential demand first.",
           [
-            "Demand pressure is inferred from daily demand and current stock.",
+            `Recorded daily demand: ${demand} litres.`,
+            `Recorded current stock: ${stock} litres.`,
+            "Demand pressure is inferred from daily demand and current stock; actual order fulfilment is not established.",
           ],
           [
-            "Customer-level priorities and confirmed order quantities are unavailable.",
+            "Customer-level priorities, confirmed order quantities and acceptable service-level changes are unavailable.",
           ]
         )
       );
@@ -385,6 +412,10 @@ export function generateRecoveryRecommendations(
 
   assumptions.push(
     "Recovery recommendations are deterministic drafts generated from graph connectivity and available entity attributes."
+  );
+
+  assumptions.push(
+    "Recorded capacity, connectivity and status attributes do not independently verify operational availability or spare capacity."
   );
 
   assumptions.push(

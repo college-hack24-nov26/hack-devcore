@@ -136,9 +136,18 @@ export interface FinancialImpact {
   currency: string;
 }
 
+export interface AffectedEntityDetail {
+  id: UUID;
+  name: string;
+  type: EntityType | "route";
+}
+
 export interface ImpactResult {
   /** IDs of all affected graph entities. */
   affectedEntityIds: UUID[];
+  affectedRouteIds: UUID[];
+  affectedEntityDetails: AffectedEntityDetail[];
+  affectedRoutes: number;
 
   /** Counts of affected entities by category. */
   affectedEntities: number;

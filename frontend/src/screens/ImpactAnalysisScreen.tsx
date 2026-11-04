@@ -467,37 +467,59 @@ export const ImpactAnalysisScreen: React.FC<ImpactAnalysisScreenProps> = ({
         <div className="rounded-2xl border border-slate-200 bg-white p-5">
           <SectionHeading
             title="Affected Entities"
-            description="Graph entity IDs returned by the engine."
+            description="Facilities, suppliers and disrupted routes identified by the engine."
           />
 
-          {impact?.affectedEntityIds.length ? (
-            <div className="max-h-72 space-y-2 overflow-y-auto">
-              {impact.affectedEntityIds.map((id) => (
-                <div
-                  key={id}
-                  className="flex items-center gap-2 rounded-lg bg-slate-50 p-3"
-                >
-                  <div className="rounded-lg bg-blue-50 p-1.5 text-blue-600">
-                    <Building2 size={14} />
+          {impact?.affectedEntityDetails?.length ? (
+            <>
+              <div className="mb-3 flex flex-wrap gap-2">
+                <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+                  {impact.affectedFacilities} Facilities
+                </span>
+                <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">
+                  {impact.affectedSuppliers} Suppliers
+                </span>
+                <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+                  {impact.affectedRoutes} Routes
+                </span>
+              </div>
+
+              <div className="max-h-80 space-y-2 overflow-y-auto">
+                {(impact.affectedEntityDetails ?? []).map((entity) => (
+                  <div
+                    key={`${entity.type}-${entity.id}`}
+                    className="flex items-center gap-3 rounded-lg bg-slate-50 p-3"
+                  >
+                    <div className="rounded-lg bg-blue-50 p-2 text-blue-600">
+                      {entity.type === 'route' ? (
+                        <Activity size={15} />
+                      ) : entity.type === 'supplier' ? (
+                        <Building2 size={15} />
+                      ) : entity.type === 'facility' ? (
+                        <Factory size={15} />
+                      ) : (
+                        <Package size={15} />
+                      )}
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-xs font-semibold text-slate-800">
+                        {entity.name}
+                      </p>
+                      <p className="text-[11px] capitalize text-slate-400">
+                        {entity.type}
+                      </p>
+                    </div>
                   </div>
-                  <span className="break-all text-xs font-medium text-slate-700">
-                    {id}
-                  </span>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            </>
           ) : (
-            <div className="rounded-xl border border-dashed border-slate-200 p-5 text-center">
-              <Building2 className="mx-auto text-slate-300" size={25} />
-              <p className="mt-2 text-xs font-semibold text-slate-600">
-                {impact ? 'No affected entities' : 'No results available'}
-              </p>
-              <p className="mt-1 text-[11px] text-slate-400">
-                Entity details appear after simulation.
-              </p>
-            </div>
+            <p className="mt-3 text-xs text-slate-400">
+              No affected entities are available.
+            </p>
           )}
-        </div>
+        </div>      
       </div>
 
       {/* Recovery plans */}

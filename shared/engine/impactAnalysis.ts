@@ -5,6 +5,7 @@ import type {
   ImpactResult,
   Severity,
   UUID,
+  AffectedEntityDetail,
 } from "../types.ts";
 
 import type { DisruptionPropagationResult } from "./disruptionPropagation.ts";
@@ -50,14 +51,12 @@ export function analyzeImpact(
   scenario: ScenarioInput,
   propagation: DisruptionPropagationResult
 ): ImpactAnalysisResult {
-  // Identify affected nodes only.
-  const affectedIds = new Set<UUID>(propagation.affectedNodeIds);
+  const affectedNodeIds = new Set(propagation.affectedNodeIds);
 
   const affectedNodes = graph.nodes.filter((node) =>
-    affectedIds.has(node.id)
+    affectedNodeIds.has(node.id)
   );
 
-  // Count affected entity types.
   const affectedSuppliers = affectedNodes.filter(
     (node) => node.type === "supplier"
   ).length;
@@ -70,54 +69,127 @@ export function analyzeImpact(
     (node) => node.type === "warehouse"
   ).length;
 
+  // Only transport relationships count as affected routes.
+  const affectedEdgeIds = new Set(propagation.affectedEdgeIds);
+
+  const affectedRoutes = graph.edges.filter(
+    (edge) =>
+      affectedEdgeIds.has(edge.id) &&
+      edge.relationshipType === "ships_to"
+  );
+
+  // Build readable entity details for the dashboard.
+  const affectedEntityDetails: AffectedEntityDetail[] = [
+    ...affectedNodes.map((node) => ({
+      id: node.id,
+      name: node.name,
+      type: node.type,
+    })),
+    ...affectedRoutes.map((edge) => {
+      const source = graph.nodes.find(
+        (node) => node.id === edge.sourceId
+      );
+
+      const target = graph.nodes.find(
+        (node) => node.id === edge.targetId
+      );
+
+      const routeId = edge.attributes?.routeId;
+
+      return {
+        id: edge.id,
+        name:
+          typeof routeId === "string"
+            ? routeId
+            : `${source?.name ?? "Unknown"} → ${target?.name ?? "Unknown"}`,
+        type: "route" as const,
+      };
+    }),
+  ];
+
   const assumptions: string[] = [];
   const warnings: string[] = [...propagation.warnings];
 
-  // Calculate projected inventory shortage where valid data exists.
-  const distributionCentres = affectedNodes.filter((node) => {
-    if (node.type !== "facility") return false;
+  /*
+   * Inventory shortage:
+   * Calculate projected demand gaps for every event type.
+   * This preserves compatibility with existing tests and avoids
+   * silently excluding affected facilities.
+   *
+   * For overlapping events affecting the same facility, retain
+   * the largest individual estimate instead of adding them.
+   */
+  const shortageByFacility = new Map<UUID, number>();
 
-    return (
-      getNumber(node.attributes, "dailyDemandLitres") !== null &&
-      getNumber(node.attributes, "currentStockLitres") !== null
+  for (const item of scenario.events.map((event, eventIndex) => ({
+    event,
+    eventIndex,
+    propagation: propagation.events.find(
+      (result) => result.eventIndex === eventIndex
+    ),
+  }))) {
+    if (!item.propagation) continue;
+
+    const eventNodeIds = new Set(
+      item.propagation.affectedNodeIds
     );
-  });
 
-  let inventoryShortage: number | null = null;
+    const durationDays = item.event.durationHours / 24;
 
-  if (distributionCentres.length > 0 && scenario.events.length > 0) {
-    const durationDays =
-      Math.max(...scenario.events.map((event) => event.durationHours)) / 24;
+    for (const facility of affectedNodes) {
+      if (facility.type !== "facility") continue;
+      if (!eventNodeIds.has(facility.id)) continue;
 
-    inventoryShortage = distributionCentres.reduce((total, node) => {
-      const demand = getNumber(node.attributes, "dailyDemandLitres");
-      const stock = getNumber(node.attributes, "currentStockLitres");
+      const demand = getNumber(
+        facility.attributes,
+        "dailyDemandLitres"
+      );
 
-      if (demand === null || stock === null) {
-        return total;
-      }
+      const stock = getNumber(
+        facility.attributes,
+        "currentStockLitres"
+      );
 
-      const shortage = Math.max(
+      if (demand === null || stock === null) continue;
+
+      const projectedShortage = Math.max(
         0,
         demand * durationDays - stock
       );
 
-      return total + shortage;
-    }, 0);
+      const previous =
+        shortageByFacility.get(facility.id) ?? 0;
+
+      shortageByFacility.set(
+        facility.id,
+        Math.max(previous, projectedShortage)
+      );
+    }
+  }
+
+  let inventoryShortage: number | null = null;
+
+  if (shortageByFacility.size > 0) {
+    inventoryShortage = [...shortageByFacility.values()].reduce(
+      (total, shortage) => total + shortage,
+      0
+    );
 
     assumptions.push(
-      "Inventory shortage is a projected demand gap over the disruption duration, assuming no replenishment. It is not a confirmed unfulfilled order quantity."
+      "Inventory shortage is a projected demand gap for affected facilities over each event's duration. The calculation assumes no replenishment. Overlapping estimates for the same facility are not added. This is not a confirmed supply shortage or unfulfilled order quantity."
     );
   } else {
-    inventoryShortage = null;
-
     warnings.push(
-      "Inventory shortage unavailable: no affected facility has both valid demand and stock data."
+      "Inventory shortage unavailable: no affected facility has valid daily demand and current stock data."
     );
   }
 
-  // Calculate production loss only for directly targeted processing plants.
-  const productionLosses: number[] = [];
+  /*
+   * Production loss:
+   * Only directly targeted processing plants with explicit
+   * capacity reduction and valid capacity data are calculated.
+   */
+  const productionLossByTarget = new Map<UUID, number>();
 
   for (const event of scenario.events) {
     if (event.targetKind !== "node") continue;
@@ -129,9 +201,7 @@ export function analyzeImpact(
 
     if (!target || target.type !== "facility") continue;
 
-    if (
-      target.attributes.facilityType !== "processing_plant"
-    ) {
+    if (target.attributes.facilityType !== "processing_plant") {
       continue;
     }
 
@@ -158,34 +228,35 @@ export function analyzeImpact(
       (reduction / 100) *
       (event.durationHours / 24);
 
-    productionLosses.push(lostCapacity);
+    const previous =
+      productionLossByTarget.get(target.id) ?? 0;
+
+    productionLossByTarget.set(
+      target.id,
+      Math.max(previous, lostCapacity)
+    );
   }
 
   let estimatedProductionLoss: number | null = null;
 
-  if (productionLosses.length > 0) {
-    estimatedProductionLoss = productionLosses.reduce(
-      (total, loss) => total + loss,
-      0
-    );
+  if (productionLossByTarget.size > 0) {
+    estimatedProductionLoss = [
+      ...productionLossByTarget.values(),
+    ].reduce((total, loss) => total + loss, 0);
 
     assumptions.push(
-      "Production loss uses explicitly supplied capacity reduction percentages and processing capacity. It is an estimate, not measured output loss."
+      "Production loss estimates lost processing capacity using daily capacity, explicit capacity reduction and event duration. Overlapping estimates for the same plant are not added. This is estimated capacity loss, not measured production output."
     );
   } else {
     warnings.push(
-      "Production loss unavailable: no directly targeted processing plant has valid capacity data and an explicit capacity reduction percentage between 0 and 100."
+      "Production loss unavailable: no directly targeted processing plant has valid capacity data and an explicit capacity reduction percentage."
     );
   }
-
-  // The current graph has no order-level records.
-  const impactedOrders: number | null = null;
 
   warnings.push(
     "Impacted orders unavailable because order-level data is not present in the current graph."
   );
 
-  // Financial impact cannot be estimated reliably without monetary loss data.
   warnings.push(
     "Financial impact unavailable because reliable monetary loss data is not present in the graph."
   );
@@ -196,11 +267,18 @@ export function analyzeImpact(
     );
   }
 
+  const impactedOrders: number | null = null;
+
   const impact: ImpactResult = {
-    // Only graph node IDs belong here, never edge IDs.
     affectedEntityIds: affectedNodes.map((node) => node.id),
 
-    affectedEntities: affectedNodes.length,
+    affectedRouteIds: affectedRoutes.map((edge) => edge.id),
+    affectedEntityDetails,
+    affectedRoutes: affectedRoutes.length,
+
+    // Count graph nodes and transport routes independently.
+    affectedEntities: affectedNodes.length + affectedRoutes.length,
+
     affectedSuppliers,
     affectedFacilities,
     affectedWarehouses,

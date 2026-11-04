@@ -10,16 +10,20 @@ import { RecoveryPlanningScreen } from './screens/RecoveryPlanningScreen';
 import { ReportDisruptionModal } from './components/ReportDisruptionModal';
 import type { NavigationSection, DisruptionIncident } from './types';
 import { mockDisruptions } from './data/mockData';
+import type { SimulationResult } from '../../shared/types';
 
 export const App: React.FC = () => {
   const [currentSection, setCurrentSection] = useState<NavigationSection>('home');
   const [disruptions, setDisruptions] = useState<DisruptionIncident[]>(mockDisruptions);
-  const [isReportModalOpen, setIsReportModalOpen] = useState<boolean>(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [simulationResult, setSimulationResult] = useState<SimulationResult | null>(null);
 
-  const activeDisruptionsCount = disruptions.filter((d) => d.status !== 'Resolved').length;
+  const activeDisruptionsCount = disruptions.filter(
+    (disruption) => disruption.status !== 'Resolved',
+  ).length;
 
   const handleAddDisruption = (newIncident: DisruptionIncident) => {
-    setDisruptions([newIncident, ...disruptions]);
+    setDisruptions((previous) => [newIncident, ...previous]);
   };
 
   const renderActiveScreen = () => {
@@ -32,17 +36,23 @@ export const App: React.FC = () => {
             onOpenReportModal={() => setIsReportModalOpen(true)}
           />
         );
+
       case 'supply-chain':
         return (
           <SupplyChainScreen
             onNavigate={setCurrentSection}
-            onNavigateToScenarioWithEntity={() => {
-              setCurrentSection('what-if');
-            }}
+            onNavigateToScenarioWithEntity={() => setCurrentSection('what-if')}
           />
         );
+
       case 'what-if':
-        return <WhatIfScreen onNavigate={setCurrentSection} />;
+        return (
+          <WhatIfScreen
+            onNavigate={setCurrentSection}
+            onSimulationComplete={setSimulationResult}
+          />
+        );
+
       case 'disruptions':
         return (
           <DisruptionsScreen
@@ -51,10 +61,18 @@ export const App: React.FC = () => {
             onNavigate={setCurrentSection}
           />
         );
+
       case 'impact-analysis':
-        return <ImpactAnalysisScreen onNavigate={setCurrentSection} />;
+        return (
+          <ImpactAnalysisScreen
+            onNavigate={setCurrentSection}
+            result={simulationResult}
+          />
+        );
+
       case 'recovery-planning':
         return <RecoveryPlanningScreen onNavigate={setCurrentSection} />;
+
       default:
         return (
           <HomeScreen
@@ -67,30 +85,25 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-slate-50 text-slate-900 font-sans">
-      {/* Persistent High-Contrast Dark Navy Sidebar */}
+    <div className="flex h-screen w-screen overflow-hidden bg-slate-50 font-sans text-slate-900">
       <Sidebar
         currentSection={currentSection}
         onNavigate={setCurrentSection}
         activeDisruptionsCount={activeDisruptionsCount}
       />
 
-      {/* Main Workspace Area */}
-      <div className="flex-1 flex flex-col h-full overflow-hidden">
-        {/* Top Header */}
+      <div className="flex h-full flex-1 flex-col overflow-hidden">
         <Header
           currentSection={currentSection}
           onOpenReportModal={() => setIsReportModalOpen(true)}
           onNavigateToScenario={() => setCurrentSection('what-if')}
         />
 
-        {/* Scrollable Screen Content */}
         <main className="flex-1 overflow-y-auto p-6 md:p-8">
           {renderActiveScreen()}
         </main>
       </div>
 
-      {/* Quick Intake Modal for Disruptions */}
       <ReportDisruptionModal
         isOpen={isReportModalOpen}
         onClose={() => setIsReportModalOpen(false)}
