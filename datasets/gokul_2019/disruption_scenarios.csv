@@ -1,0 +1,5 @@
+scenario_id,scenario_name,affected_region,disruption_type,affected_node_ids,disruption_start,disruption_duration_hours,capacity_reduction_percentage,data_source
+DS-01,Flood blocks a milk transport route,"Kolhapur district, Maharashtra",route_blockage,RT-002,2019-08-07T06:00:00+05:30,36,100,RECONSTRUCTED_SAMPLE
+DS-02,Collection centre temporarily unavailable,"Sangli district, Maharashtra",facility_outage,CC-05,2019-08-08T05:30:00+05:30,18,100,RECONSTRUCTED_SAMPLE
+DS-03,Chilling centre loses operating capacity,"Kolhapur district, Maharashtra",capacity_loss,CH-02,2019-08-08T09:00:00+05:30,24,70,RECONSTRUCTED_SAMPLE
+DS-04,Multiple transport routes become unavailable,"Kolhapur-Sangli corridor, Maharashtra",multi_route_closure,RT-005;RT-006;RT-014,2019-08-09T06:00:00+05:30,48,100,RECONSTRUCTED_SAMPLE

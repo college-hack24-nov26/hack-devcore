@@ -1,0 +1,6 @@
+chilling_id,centre_name,district,storage_capacity_litres,current_stock_litres,connected_collection_centres,status,data_source
+CH-01,Kolhapur Chilling Centre-1 (Sample),Kolhapur,45000,17700,CC-01;CC-02,operational,RECONSTRUCTED_SAMPLE
+CH-02,Kolhapur Chilling Centre-2 (Sample),Kolhapur,43000,13500,CC-03;CC-04,operational,RECONSTRUCTED_SAMPLE
+CH-03,Sangli Chilling Centre-1 (Sample),Sangli,37000,11600,CC-05;CC-06,operational,RECONSTRUCTED_SAMPLE
+CH-04,Sangli Chilling Centre-2 (Sample),Sangli,23000,7800,CC-07;CC-08,operational,RECONSTRUCTED_SAMPLE
+CH-05,Satara Chilling Centre-1 (Sample),Satara,40000,14500,CC-09;CC-10,operational,RECONSTRUCTED_SAMPLE

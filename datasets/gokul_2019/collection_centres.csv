@@ -1,0 +1,11 @@
+centre_id,centre_name,district,latitude,longitude,daily_collection_capacity,current_collection,connected_supplier_ids,status,data_source
+CC-01,Kolhapur Central Collection Centre (Sample),Kolhapur,16.6428,74.2953,25500,18005,SUP-01;SUP-05;SUP-09;SUP-13,operational,RECONSTRUCTED_SAMPLE
+CC-02,Kolhapur West Collection Centre (Sample),Kolhapur,16.6948,74.1745,16000,10921,SUP-02;SUP-06;SUP-10;SUP-14,operational,RECONSTRUCTED_SAMPLE
+CC-03,Karveer Collection Centre (Sample),Kolhapur,16.787,74.1137,21500,15209,SUP-03;SUP-07;SUP-11,operational,RECONSTRUCTED_SAMPLE
+CC-04,Kolhapur South Collection Centre (Sample),Kolhapur,16.7753,74.3092,12500,9224,SUP-04;SUP-08;SUP-12,operational,RECONSTRUCTED_SAMPLE
+CC-05,Sangli Central Collection Centre (Sample),Sangli,16.8536,74.4948,11500,7983,SUP-15;SUP-19;SUP-23,operational,RECONSTRUCTED_SAMPLE
+CC-06,Sangli East Collection Centre (Sample),Sangli,16.861,74.5171,17000,11154,SUP-16;SUP-20;SUP-24,operational,RECONSTRUCTED_SAMPLE
+CC-07,Sangli West Collection Centre (Sample),Sangli,16.8036,74.4408,9500,6512,SUP-17;SUP-21,operational,RECONSTRUCTED_SAMPLE
+CC-08,Sangli North Collection Centre (Sample),Sangli,16.9027,74.6841,10000,6013,SUP-18;SUP-22,operational,RECONSTRUCTED_SAMPLE
+CC-09,Satara Collection Centre (Sample),Satara,17.8035,73.9546,12000,8788,SUP-25;SUP-27;SUP-29,operational,RECONSTRUCTED_SAMPLE
+CC-10,Satara South Collection Centre (Sample),Satara,17.626,74.0377,18000,12710,SUP-26;SUP-28;SUP-30,operational,RECONSTRUCTED_SAMPLE
