@@ -1,0 +1,3 @@
+plant_id,plant_name,district,processing_capacity_litres_per_day,current_capacity_utilisation,connected_chilling_centres,status,data_source
+PL-01,Kolhapur Dairy Processing Plant (Sample),Kolhapur,90000,75.1,CH-01;CH-02;CH-05,operational,RECONSTRUCTED_SAMPLE
+PL-02,Sangli Dairy Processing Plant (Sample),Sangli,37000,81.3,CH-03;CH-04,operational,RECONSTRUCTED_SAMPLE

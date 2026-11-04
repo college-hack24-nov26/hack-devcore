@@ -1,0 +1,5 @@
+distribution_id,city,district,daily_demand_litres,current_stock_litres,priority,data_source
+DC-01,Kolhapur,Kolhapur,22000,10100,high,RECONSTRUCTED_SAMPLE
+DC-02,Sangli,Sangli,14500,5500,high,RECONSTRUCTED_SAMPLE
+DC-03,Pune,Pune,25000,14050,medium,RECONSTRUCTED_SAMPLE
+DC-04,Mumbai,Mumbai,30000,11150,medium,RECONSTRUCTED_SAMPLE
