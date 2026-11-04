@@ -42,9 +42,9 @@ export function simulateScenario(
     graph,
     scenario,
     propagation,
-    impactAnalysis.impact
+    impactAnalysis.impact,
+    context
   );
-
   // Step 5: Combine assumptions and warnings.
   const assumptions = [
     ...impactAnalysis.assumptions,
