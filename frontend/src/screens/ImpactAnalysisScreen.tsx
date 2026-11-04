@@ -1,441 +1,605 @@
-import React, { useState } from 'react';
+
+import React from 'react';
 import {
-  Clock,
-  PackageX,
-  DollarSign,
-  ArrowRight,
-  Sparkles,
-  ShieldCheck,
-  Building2,
-  Factory,
-  Warehouse,
-  ShoppingBag,
+  Activity,
   AlertTriangle,
+  ArrowRight,
+  Building2,
+  CheckCircle2,
+  Clock3,
+  Factory,
+  Package,
+  RefreshCw,
+  ShieldCheck,
+  TrendingDown,
+  Warehouse,
+  XCircle,
+  Zap,
 } from 'lucide-react';
+
 import type { NavigationSection } from '../types';
-import { mockCustomerOrdersAtRisk } from '../data/mockData';
+import type { SimulationResult, RecoveryPlanDraft } from '../../../shared/types';
 
 interface ImpactAnalysisScreenProps {
   onNavigate: (section: NavigationSection) => void;
+  result?: SimulationResult | null;
 }
 
-export const ImpactAnalysisScreen: React.FC<ImpactAnalysisScreenProps> = ({ onNavigate }) => {
-  const [showHistoricalBaseline, setShowHistoricalBaseline] = useState<boolean>(true);
+const severityStyles: Record<string, string> = {
+  low: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  medium: 'bg-amber-50 text-amber-700 border-amber-200',
+  moderate: 'bg-amber-50 text-amber-700 border-amber-200',
+  high: 'bg-orange-50 text-orange-700 border-orange-200',
+  critical: 'bg-rose-50 text-rose-700 border-rose-200',
+};
+
+const feasibilityStyles: Record<string, string> = {
+  feasible: 'bg-emerald-50 text-emerald-700',
+  conditional: 'bg-amber-50 text-amber-700',
+  infeasible: 'bg-rose-50 text-rose-700',
+};
+
+const formatNumber = (value: number | null | undefined) =>
+  value == null ? 'Unavailable' : value.toLocaleString();
+
+const formatCurrency = (
+  value: number | null | undefined,
+  currency?: string,
+) => {
+  if (value == null) return 'Unavailable';
+
+  return `${currency || ''} ${value.toLocaleString(undefined, {
+    maximumFractionDigits: 2,
+  })}`.trim();
+};
+
+const MetricCard = ({
+  label,
+  value,
+  description,
+  icon: Icon,
+  accent,
+}: {
+  label: string;
+  value: string | number;
+  description: string;
+  icon: React.ElementType;
+  accent: string;
+}) => (
+  <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="mb-4 flex items-center justify-between">
+      <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+        {label}
+      </span>
+      <div className={`rounded-xl p-2.5 ${accent}`}>
+        <Icon size={19} />
+      </div>
+    </div>
+    <div className="text-2xl font-extrabold tracking-tight text-slate-900">
+      {value}
+    </div>
+    <p className="mt-2 text-xs leading-relaxed text-slate-500">
+      {description}
+    </p>
+  </div>
+);
+
+const SectionHeading = ({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) => (
+  <div className="mb-4">
+    <h3 className="text-base font-bold text-slate-900">{title}</h3>
+    <p className="mt-1 text-xs text-slate-500">{description}</p>
+  </div>
+);
+
+const RecoveryCard = ({ plan }: { plan: RecoveryPlanDraft }) => (
+  <div className="rounded-xl border border-slate-200 bg-white p-4 transition hover:border-blue-300 hover:shadow-sm">
+    <div className="flex flex-wrap items-center justify-between gap-2">
+      <div className="flex items-center gap-2">
+        <div className="rounded-lg bg-blue-50 p-2 text-blue-600">
+          <ShieldCheck size={17} />
+        </div>
+        <span className="text-sm font-bold text-slate-900">
+          {plan.name}
+        </span>
+      </div>
+
+      {plan.recommended && (
+        <span className="rounded-full bg-blue-50 px-2.5 py-1 text-[10px] font-bold text-blue-700">
+          RECOMMENDED
+        </span>
+      )}
+    </div>
+
+    <p className="mt-3 text-xs leading-relaxed text-slate-600">
+      {plan.description}
+    </p>
+
+    <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+      <div className="rounded-lg bg-slate-50 p-3">
+        <p className="text-[10px] font-semibold uppercase text-slate-400">
+          Feasibility
+        </p>
+        <span
+          className={`mt-1 inline-block rounded-md px-2 py-1 text-xs font-bold capitalize ${
+            feasibilityStyles[plan.feasibility] || 'bg-slate-100 text-slate-600'
+          }`}
+        >
+          {plan.feasibility}
+        </span>
+      </div>
+
+      <div className="rounded-lg bg-slate-50 p-3">
+        <p className="text-[10px] font-semibold uppercase text-slate-400">
+          Estimated Cost
+        </p>
+        <p className="mt-1 text-sm font-bold text-slate-800">
+          {formatCurrency(plan.estimatedCost, plan.currencyCode)}
+        </p>
+      </div>
+
+      <div className="rounded-lg bg-slate-50 p-3">
+        <p className="text-[10px] font-semibold uppercase text-slate-400">
+          Recovery Time
+        </p>
+        <p className="mt-1 text-sm font-bold text-slate-800">
+          {plan.recoveryTimeHours == null
+            ? 'Unavailable'
+            : `${plan.recoveryTimeHours} hrs`}
+        </p>
+      </div>
+    </div>
+
+    {plan.actions.length > 0 && (
+      <div className="mt-4 border-t border-slate-100 pt-3">
+        <p className="mb-2 text-xs font-bold text-slate-700">
+          Proposed actions ({plan.actions.length})
+        </p>
+        <div className="space-y-2">
+          {plan.actions.map((action) => (
+            <div key={action.id} className="flex gap-2 text-xs text-slate-600">
+              <CheckCircle2 size={14} className="mt-0.5 shrink-0 text-teal-600" />
+              <div>
+                <p className="font-semibold text-slate-800">
+                  {action.description}
+                </p>
+                <p className="mt-0.5 text-slate-500">{action.rationale}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3">
+      <span className="text-[11px] text-slate-500">
+        Risk: <strong className="uppercase">{plan.risk}</strong>
+      </span>
+      <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-amber-700">
+        <AlertTriangle size={13} />
+        Human approval required
+      </span>
+    </div>
+  </div>
+);
+
+export const ImpactAnalysisScreen: React.FC<ImpactAnalysisScreenProps> = ({
+  onNavigate,
+  result = null,
+}) => {
+  const impact = result?.impact;
+  const completed = result?.status === 'completed';
+  const failed = result?.status === 'failed';
+
+  const warnings = result?.warnings ?? [];
+  const assumptions = result?.assumptions ?? [];
+  const plans = result?.recoveryPlans ?? [];
+
+  const severity = impact?.severity ?? 'low';
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
-      {/* Incident Context & Navigation Bar */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div className="flex items-center gap-2.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping"></span>
-          <div>
-            <div className="text-xs font-bold text-slate-900">
-              Active Disruption Analysis: Shanghai Maritime Port Congestion (#DIS-8821)
+    <div className="mx-auto max-w-7xl space-y-6 pb-8">
+
+      {/* Header */}
+      <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+        <div>
+          <div className="flex items-center gap-2">
+            <div className="rounded-xl bg-blue-600 p-2.5 text-white shadow-lg shadow-blue-600/20">
+              <Activity size={21} />
             </div>
-            <div className="text-[11px] text-slate-500">
-              Pacific Cargo Route → Austin Gigaplant Alpha • 14-Day Simulation Window
+            <div>
+              <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">
+                Simulation Impact Analysis
+              </h1>
+              <p className="mt-0.5 text-xs text-slate-500">
+                Supply chain disruption analysis and recovery intelligence
+              </p>
             </div>
           </div>
         </div>
 
         <button
-          onClick={() => onNavigate('recovery-planning')}
-          className="inline-flex items-center gap-1.5 px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs rounded-xl shadow-sm transition-all cursor-pointer"
+          onClick={() => onNavigate('what-if')}
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-blue-700"
         >
-          <span>Proceed to Recovery Planning</span>
-          <ArrowRight className="w-3.5 h-3.5" />
+          <RefreshCw size={15} />
+          Create New Scenario
         </button>
       </div>
 
-      {/* UX Rule Banner: Clearly Distinguish Simulated Estimates from Historical Data */}
-      <div className="bg-gradient-to-r from-blue-50 via-indigo-50 to-teal-50 border border-blue-200/80 rounded-2xl p-4.5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="flex items-start gap-3">
-          <div className="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-            <Sparkles className="w-4 h-4" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-100 text-blue-800 border border-blue-200">
-                Simulated AI Predictive Estimates
-              </span>
-              <span className="text-xs text-slate-500">• Confidence: 94%</span>
-            </div>
-            <p className="text-xs text-slate-600 mt-1">
-              Projections are computed using multi-tier inventory buffers and carrier latency curves. 
-              Historical baseline actuals (2025) are rendered in dashed gray.
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3 shrink-0 self-start md:self-auto bg-white/70 px-3 py-1.5 rounded-xl border border-blue-200/60">
-          <span className="text-xs font-semibold text-slate-700">Overlay 2025 Baseline</span>
-          <button
-            onClick={() => setShowHistoricalBaseline(!showHistoricalBaseline)}
-            className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors cursor-pointer ${
-              showHistoricalBaseline ? 'bg-blue-600' : 'bg-slate-300'
+      {/* Simulation status */}
+      <div className="flex flex-col justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-4 sm:flex-row sm:items-center">
+        <div className="flex items-center gap-3">
+          <div
+            className={`rounded-xl p-2.5 ${
+              completed
+                ? 'bg-emerald-50 text-emerald-600'
+                : failed
+                  ? 'bg-rose-50 text-rose-600'
+                  : 'bg-amber-50 text-amber-600'
             }`}
           >
-            <div
-              className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform ${
-                showHistoricalBaseline ? 'translate-x-5' : 'translate-x-0'
-              }`}
-            ></div>
-          </button>
-        </div>
-      </div>
+            {completed ? (
+              <CheckCircle2 size={20} />
+            ) : failed ? (
+              <XCircle size={20} />
+            ) : (
+              <Clock3 size={20} />
+            )}
+          </div>
 
-      {/* 1. Three Core Headline Impact KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* KPI 1: Estimated Delays */}
-        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-              Estimated Delays
-            </span>
-            <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
-              <Clock className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="text-3xl font-extrabold text-slate-900 tracking-tight flex items-baseline gap-2">
-            <span>+3.4 Days</span>
-            <span className="text-xs font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">
-              Transit Slip
-            </span>
-          </div>
-          <p className="text-xs text-slate-500 mt-2">
-            Standard arrival pushed from Nov 8 to Nov 11. 2 maritime feeder carriers queued.
-          </p>
-          <div className="mt-3 pt-3 border-t border-slate-100 text-[11px] text-slate-400">
-            Historical normal deviation: ±0.2 days
-          </div>
-        </div>
-
-        {/* KPI 2: Inventory Shortage */}
-        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-              Inventory Shortage
-            </span>
-            <div className="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center">
-              <PackageX className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="text-3xl font-extrabold text-rose-600 tracking-tight flex items-baseline gap-2">
-            <span>4,200 Units</span>
-            <span className="text-xs font-bold text-rose-800 bg-rose-100 px-2 py-0.5 rounded-full">
-              Buffer Deficit
-            </span>
-          </div>
-          <p className="text-xs text-slate-500 mt-2">
-            Austin Gigaplant buffer falls below critical threshold on Day 7.5 without intervention.
-          </p>
-          <div className="mt-3 pt-3 border-t border-slate-100 text-[11px] text-slate-400">
-            Safety reserve limit: 3,000 units
-          </div>
-        </div>
-
-        {/* KPI 3: Financial Exposure */}
-        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-              Financial Impact Exposure
-            </span>
-            <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
-              <DollarSign className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="text-3xl font-extrabold text-slate-900 tracking-tight flex items-baseline gap-2">
-            <span>$420,000</span>
-            <span className="text-xs font-bold text-blue-800 bg-blue-100 px-2 py-0.5 rounded-full">
-              At Risk
-            </span>
-          </div>
-          <p className="text-xs text-slate-500 mt-2">
-            Includes expedited logistics, temporary line idle, and delayed fulfillment penalties.
-          </p>
-          <div className="mt-3 pt-3 border-t border-slate-100 text-[11px] text-emerald-600 font-semibold">
-            Mitigatable down to ~$78,000 via Strategy A
-          </div>
-        </div>
-      </div>
-
-      {/* 2. Affected Value Chain Breakdown (4 Connected Cards) */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div>
-            <h3 className="text-base font-bold text-slate-900">Downstream Disruption Propagation</h3>
-            <p className="text-xs text-slate-500">Step-by-step cascade through multi-tier nodes</p>
-          </div>
-          <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-lg">
-            4 Nodes Impacted
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          {/* Node 1: Suppliers */}
-          <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/60">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-6 h-6 rounded bg-blue-100 text-blue-700 flex items-center justify-center">
-                <Building2 className="w-3.5 h-3.5" />
-              </div>
-              <span className="text-xs font-bold text-slate-900">Suppliers (2 Held)</span>
-            </div>
-            <div className="font-semibold text-xs text-slate-800">Silico & Pacific Components</div>
-            <div className="text-[11px] text-slate-500 mt-1">Containers queued at Shanghai berth</div>
-            <div className="mt-2 text-[10px] font-bold text-rose-600">Delayed: +3.4 Days</div>
-          </div>
-
-          {/* Node 2: Factories */}
-          <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/60">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-6 h-6 rounded bg-teal-100 text-teal-700 flex items-center justify-center">
-                <Factory className="w-3.5 h-3.5" />
-              </div>
-              <span className="text-xs font-bold text-slate-900">Factories (1 Impacted)</span>
-            </div>
-            <div className="font-semibold text-xs text-slate-800">Austin Gigaplant Alpha</div>
-            <div className="text-[11px] text-slate-500 mt-1">Assembly line slows by 15% on Day 8</div>
-            <div className="mt-2 text-[10px] font-bold text-amber-600">Buffer: 4 Days Left</div>
-          </div>
-
-          {/* Node 3: Warehouses */}
-          <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/60">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-6 h-6 rounded bg-amber-100 text-amber-700 flex items-center justify-center">
-                <Warehouse className="w-3.5 h-3.5" />
-              </div>
-              <span className="text-xs font-bold text-slate-900">Warehouses (1 Impacted)</span>
-            </div>
-            <div className="font-semibold text-xs text-slate-800">Chicago Central Depot</div>
-            <div className="text-[11px] text-slate-500 mt-1">Receiving backlog pushed back +3.4d</div>
-            <div className="mt-2 text-[10px] font-bold text-amber-600">Buffer Inflow Stalled</div>
-          </div>
-
-          {/* Node 4: Customers */}
-          <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/60">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-6 h-6 rounded bg-indigo-100 text-indigo-700 flex items-center justify-center">
-                <ShoppingBag className="w-3.5 h-3.5" />
-              </div>
-              <span className="text-xs font-bold text-slate-900">Customer Orders (18)</span>
-            </div>
-            <div className="font-semibold text-xs text-slate-800">Retail & Wholesale Orders</div>
-            <div className="text-[11px] text-slate-500 mt-1">2 Key Account contract SLAs threatened</div>
-            <div className="mt-2 text-[10px] font-bold text-rose-600">Potential Penalties: $90k</div>
-          </div>
-        </div>
-      </div>
-
-      {/* 3. Visual Charts Section (Two Columns) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Chart 1: 14-Day Stock Depletion Timeline (7 cols) */}
-        <div className="lg:col-span-7 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
-            <div>
-              <h3 className="text-base font-bold text-slate-900">
-                Austin Gigaplant Inventory Depletion Curve
-              </h3>
-              <p className="text-xs text-slate-500">14-day stock trajectory without recovery intervention</p>
-            </div>
-            {/* Legend */}
-            <div className="flex items-center gap-3 text-[11px]">
-              <span className="flex items-center gap-1 font-semibold text-teal-700">
-                <span className="w-2.5 h-2.5 rounded-full bg-teal-500"></span>
-                Simulated Stock
-              </span>
-              <span className="flex items-center gap-1 font-semibold text-rose-600">
-                <span className="w-3 h-0.5 bg-rose-500 border-dashed"></span>
-                Safety Limit
-              </span>
-              {showHistoricalBaseline && (
-                <span className="flex items-center gap-1 text-slate-400">
-                  <span className="w-3 h-0.5 bg-slate-300"></span>
-                  2025 Normal
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/* SVG Visual Depletion Curve */}
-          <div className="relative pt-4 pb-2">
-            <svg viewBox="0 0 500 200" className="w-full h-48 overflow-visible">
-              {/* Grid Lines */}
-              <line x1="40" y1="20" x2="480" y2="20" stroke="#f1f5f9" strokeWidth="1" />
-              <line x1="40" y1="60" x2="480" y2="60" stroke="#f1f5f9" strokeWidth="1" />
-              <line x1="40" y1="100" x2="480" y2="100" stroke="#f1f5f9" strokeWidth="1" />
-              <line x1="40" y1="140" x2="480" y2="140" stroke="#f1f5f9" strokeWidth="1" />
-              <line x1="40" y1="170" x2="480" y2="170" stroke="#cbd5e1" strokeWidth="1" />
-
-              {/* Y Axis Labels */}
-              <text x="5" y="24" fontSize="10" fill="#94a3b8">16k</text>
-              <text x="5" y="64" fontSize="10" fill="#94a3b8">12k</text>
-              <text x="5" y="104" fontSize="10" fill="#94a3b8">8k</text>
-              <text x="5" y="144" fontSize="10" fill="#94a3b8">4k</text>
-              <text x="5" y="174" fontSize="10" fill="#94a3b8">0</text>
-
-              {/* Critical Safety Threshold Line at 3,000 units (y=150) */}
-              <line x1="40" y1="148" x2="480" y2="148" stroke="#f43f5e" strokeWidth="1.5" strokeDasharray="4 4" />
-
-              {/* 2025 Baseline Normal Curve */}
-              {showHistoricalBaseline && (
-                <path
-                  d="M 40 45 Q 260 50 480 48"
-                  fill="none"
-                  stroke="#cbd5e1"
-                  strokeWidth="2"
-                  strokeDasharray="3 3"
-                />
-              )}
-
-              {/* Simulated Depletion Curve (Starts high, crosses at Day 7.5, drops to 800) */}
-              <path
-                d="M 40 35 C 160 50, 240 100, 275 148 C 310 170, 400 175, 480 180"
-                fill="none"
-                stroke="#0d9488"
-                strokeWidth="3.5"
-              />
-
-              {/* Stockout Breach Callout Point at Day 7.5 (x=275, y=148) */}
-              <circle cx="275" cy="148" r="6" fill="#ef4444" stroke="#ffffff" strokeWidth="2" />
-            </svg>
-
-            {/* Float Badge at stockout breach */}
-            <div className="bg-rose-50 border border-rose-200 text-rose-800 text-[11px] font-bold px-3 py-1.5 rounded-lg inline-flex items-center gap-1.5 shadow-xs mt-2">
-              <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
-              <span>Stockout Threshold Breach: Day 7.5 without recovery intervention</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Chart 2: Financial Cost Distribution (5 cols) */}
-        <div className="lg:col-span-5 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-4">
-          <div className="border-b border-slate-100 pb-3">
-            <h3 className="text-base font-bold text-slate-900">Financial Exposure Breakdown</h3>
-            <p className="text-xs text-slate-500">Direct costs vs customer contractual SLA penalties</p>
-          </div>
-
-          <div className="space-y-4 pt-1">
-            {/* Bar 1 */}
-            <div>
-              <div className="flex justify-between text-xs font-semibold text-slate-700 mb-1">
-                <span>Expedited Freight & Feeder Rerouting</span>
-                <span className="font-bold text-slate-900">$210,000 (50%)</span>
-              </div>
-              <div className="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
-                <div className="bg-blue-600 h-full rounded-full" style={{ width: '50%' }}></div>
-              </div>
-              <div className="text-[10px] text-slate-400 mt-1">Air charter & diverted feeder vessels</div>
-            </div>
-
-            {/* Bar 2 */}
-            <div>
-              <div className="flex justify-between text-xs font-semibold text-slate-700 mb-1">
-                <span>Production Line Idle & Overtime Rescheduling</span>
-                <span className="font-bold text-slate-900">$120,000 (29%)</span>
-              </div>
-              <div className="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
-                <div className="bg-amber-500 h-full rounded-full" style={{ width: '29%' }}></div>
-              </div>
-              <div className="text-[10px] text-slate-400 mt-1">Austin Assembly line slowdown & shifts</div>
-            </div>
-
-            {/* Bar 3 */}
-            <div>
-              <div className="flex justify-between text-xs font-semibold text-slate-700 mb-1">
-                <span>Customer SLA Delay Penalties</span>
-                <span className="font-bold text-slate-900">$90,000 (21%)</span>
-              </div>
-              <div className="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
-                <div className="bg-rose-500 h-full rounded-full" style={{ width: '21%' }}></div>
-              </div>
-              <div className="text-[10px] text-slate-400 mt-1">Contractual late delivery clauses</div>
-            </div>
-          </div>
-
-          <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-xl mt-4 flex items-center justify-between text-xs">
-            <span className="font-bold text-slate-700">Total Calculated Exposure:</span>
-            <span className="font-extrabold text-slate-900 text-base">$420,000</span>
-          </div>
-        </div>
-      </div>
-
-      {/* 4. At-Risk Customer Purchase Orders Table */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
-        <div className="p-4.5 bg-slate-50 border-b border-slate-200/80 flex items-center justify-between">
-          <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-slate-700">
-              High-Priority Customer Orders at Risk
-            </h4>
-            <p className="text-xs text-slate-500">Purchase orders requiring expedited dispatch to protect SLAs</p>
-          </div>
-          <span className="text-xs font-bold text-slate-600 bg-white border border-slate-200 px-2.5 py-1 rounded-lg">
-            4 Sample Orders
-          </span>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse text-xs">
-            <thead>
-              <tr className="border-b border-slate-200/80 text-[11px] font-bold uppercase tracking-wider text-slate-500 bg-slate-50/50">
-                <th className="py-3 px-6">Order ID</th>
-                <th className="py-3 px-4">Customer Account</th>
-                <th className="py-3 px-4">Order Value</th>
-                <th className="py-3 px-4">Original ETA</th>
-                <th className="py-3 px-4">Simulated ETA</th>
-                <th className="py-3 px-6 text-right">Risk Level</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {mockCustomerOrdersAtRisk.map((order) => (
-                <tr key={order.orderId} className="hover:bg-slate-50/70 transition-colors">
-                  <td className="py-3.5 px-6 font-bold text-slate-900">{order.orderId}</td>
-                  <td className="py-3.5 px-4 font-semibold text-slate-800">{order.customerName}</td>
-                  <td className="py-3.5 px-4 text-slate-900 font-bold">${order.orderValue.toLocaleString()}</td>
-                  <td className="py-3.5 px-4 text-slate-500">{order.originalEta}</td>
-                  <td className="py-3.5 px-4 text-rose-600 font-semibold">
-                    {order.projectedEta} (+{order.delayDays}d)
-                  </td>
-                  <td className="py-3.5 px-6 text-right">
-                    <span
-                      className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase ${
-                        order.riskTier === 'High'
-                          ? 'bg-rose-100 text-rose-800'
-                          : order.riskTier === 'Moderate'
-                          ? 'bg-amber-100 text-amber-800'
-                          : 'bg-blue-100 text-blue-800'
-                      }`}
-                    >
-                      {order.riskTier} Risk
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* 5. Footer Action Card */}
-      <div className="bg-gradient-to-r from-teal-50 to-blue-50 border border-teal-200/80 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
-        <div className="flex items-start gap-3">
-          <div className="w-8 h-8 rounded-lg bg-teal-600 text-white flex items-center justify-center shrink-0 mt-0.5">
-            <ShieldCheck className="w-4 h-4" />
-          </div>
-          <div>
-            <h4 className="font-bold text-sm text-slate-900">Recovery Playbooks Formulated</h4>
-            <p className="text-xs text-slate-600 mt-0.5">
-              Ripple optimization engine has synthesized 3 actionable recovery strategies to recover 65% to 88% of delay time.
+            <p className="text-sm font-bold text-slate-900">
+              {completed
+                ? 'Simulation completed'
+                : failed
+                  ? 'Simulation failed'
+                  : 'Waiting for simulation results'}
+            </p>
+            <p className="mt-0.5 text-xs text-slate-500">
+              {result
+                ? `Simulation ID: ${result.simulationId}`
+                : 'Run a scenario and connect the backend to populate this dashboard.'}
             </p>
           </div>
         </div>
 
-        <button
-          onClick={() => onNavigate('recovery-planning')}
-          className="px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center gap-2 shrink-0 self-start sm:self-auto cursor-pointer"
-        >
-          <span>Review Recovery Strategies (3 Options)</span>
-          <ArrowRight className="w-3.5 h-3.5" />
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          {result && (
+            <>
+              <span className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-[10px] font-bold uppercase text-slate-600">
+                {result.simulationMode}
+              </span>
+              <span
+                className={`rounded-lg border px-3 py-1.5 text-[10px] font-bold uppercase ${
+                  severityStyles[severity] || severityStyles.low
+                }`}
+              >
+                {severity} severity
+              </span>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Empty / integration state */}
+      {!result && (
+        <div className="overflow-hidden rounded-2xl border border-blue-200 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 p-6 text-white shadow-lg sm:p-8">
+          <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center">
+            <div className="rounded-2xl border border-white/10 bg-white/10 p-4">
+              <Zap size={30} className="text-cyan-300" />
+            </div>
+            <div className="flex-1">
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-cyan-300">
+                Ripple Simulation Engine
+              </span>
+              <h2 className="mt-2 text-xl font-extrabold">
+                Your supply chain analysis starts here.
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-300">
+                Once a scenario is processed by the shared simulation engine,
+                this dashboard displays its actual impact, disruption
+                propagation, recovery recommendations and data limitations.
+              </p>
+            </div>
+            <button
+              onClick={() => onNavigate('what-if')}
+              className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-cyan-400 px-4 py-3 text-xs font-extrabold text-slate-950 transition hover:bg-cyan-300"
+            >
+              Open Scenarios <ArrowRight size={15} />
+            </button>
+          </div>
+
+          <div className="mt-7 grid grid-cols-1 gap-3 border-t border-white/10 pt-5 sm:grid-cols-3">
+            {[
+              {
+                title: 'Impact propagation',
+                description: 'Identify affected suppliers and facilities.',
+              },
+              {
+                title: 'Recovery intelligence',
+                description: 'Evaluate generated mitigation strategies.',
+              },
+              {
+                title: 'Explainable results',
+                description: 'Review assumptions, warnings and evidence.',
+              },
+            ].map((item) => (
+              <div key={item.title} className="rounded-xl bg-white/5 p-4">
+                <p className="text-sm font-bold text-white">{item.title}</p>
+                <p className="mt-1 text-xs leading-relaxed text-slate-400">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Impact metrics */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <MetricCard
+          label="Affected Entities"
+          value={impact ? formatNumber(impact.affectedEntities) : '—'}
+          description="Total affected graph entities."
+          icon={Activity}
+          accent="bg-blue-50 text-blue-600"
+        />
+        <MetricCard
+          label="Affected Suppliers"
+          value={impact ? formatNumber(impact.affectedSuppliers) : '—'}
+          description="Suppliers identified by propagation."
+          icon={Building2}
+          accent="bg-indigo-50 text-indigo-600"
+        />
+        <MetricCard
+          label="Affected Facilities"
+          value={impact ? formatNumber(impact.affectedFacilities) : '—'}
+          description="Facilities affected by the scenario."
+          icon={Factory}
+          accent="bg-amber-50 text-amber-600"
+        />
+        <MetricCard
+          label="Impacted Orders"
+          value={impact ? formatNumber(impact.impactedOrders) : '—'}
+          description="Unavailable when order data is missing."
+          icon={Package}
+          accent="bg-rose-50 text-rose-600"
+        />
+      </div>
+
+      {/* Impact details */}
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 lg:col-span-2">
+          <SectionHeading
+            title="Supply Chain Impact"
+            description="Impact metrics returned by the shared simulation engine."
+          />
+
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {[
+              {
+                label: 'Affected warehouses',
+                value: impact?.affectedWarehouses,
+                icon: Warehouse,
+              },
+              {
+                label: 'Inventory shortage',
+                value: impact?.inventoryShortage,
+                icon: Package,
+              },
+              {
+                label: 'Estimated production loss',
+                value: impact?.estimatedProductionLoss,
+                icon: TrendingDown,
+              },
+              {
+                label: 'Estimated delay',
+                value: impact?.estimatedDelayDays,
+                icon: Clock3,
+              },
+            ].map((item) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={item.label}
+                  className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50 p-4"
+                >
+                  <div className="rounded-lg bg-white p-2 text-slate-500 shadow-sm">
+                    <Icon size={17} />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-medium text-slate-500">
+                      {item.label}
+                    </p>
+                    <p className="mt-1 text-sm font-bold text-slate-900">
+                      {impact
+                        ? formatNumber(item.value)
+                        : 'Awaiting results'}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-4 rounded-xl border border-slate-200 p-4">
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-xs font-bold text-slate-700">
+                Financial impact exposure
+              </p>
+              <span className="text-[10px] font-semibold text-slate-400">
+                Engine estimate
+              </span>
+            </div>
+            {impact ? (
+              <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                {[
+                  ['Best case', impact.financialImpact.bestCase],
+                  ['Expected case', impact.financialImpact.expectedCase],
+                  ['Worst case', impact.financialImpact.worstCase],
+                ].map(([label, value]) => (
+                  <div key={String(label)}>
+                    <p className="text-[10px] text-slate-500">{label}</p>
+                    <p className="mt-1 text-sm font-bold text-slate-900">
+                      {formatCurrency(
+                        value as number | null,
+                        impact.financialImpact.currency,
+                      )}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="mt-2 text-xs text-slate-400">
+                Financial estimates will appear when a simulation result is available.
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Affected entities */}
+        <div className="rounded-2xl border border-slate-200 bg-white p-5">
+          <SectionHeading
+            title="Affected Entities"
+            description="Graph entity IDs returned by the engine."
+          />
+
+          {impact?.affectedEntityIds.length ? (
+            <div className="max-h-72 space-y-2 overflow-y-auto">
+              {impact.affectedEntityIds.map((id) => (
+                <div
+                  key={id}
+                  className="flex items-center gap-2 rounded-lg bg-slate-50 p-3"
+                >
+                  <div className="rounded-lg bg-blue-50 p-1.5 text-blue-600">
+                    <Building2 size={14} />
+                  </div>
+                  <span className="break-all text-xs font-medium text-slate-700">
+                    {id}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-xl border border-dashed border-slate-200 p-5 text-center">
+              <Building2 className="mx-auto text-slate-300" size={25} />
+              <p className="mt-2 text-xs font-semibold text-slate-600">
+                {impact ? 'No affected entities' : 'No results available'}
+              </p>
+              <p className="mt-1 text-[11px] text-slate-400">
+                Entity details appear after simulation.
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Recovery plans */}
+      <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-5">
+        <div className="mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+          <SectionHeading
+            title="Recovery Recommendations"
+            description="Engine-generated recovery plans. All plans require human approval."
+          />
+          <button
+            onClick={() => onNavigate('recovery-planning')}
+            className="inline-flex items-center gap-2 self-start rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 transition hover:border-blue-300 hover:text-blue-700"
+          >
+            Recovery Planning <ArrowRight size={14} />
+          </button>
+        </div>
+
+        {plans.length > 0 ? (
+          <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+            {plans.map((plan) => (
+              <RecoveryCard key={plan.id} plan={plan} />
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-xl border border-dashed border-slate-300 bg-white p-7 text-center">
+            <ShieldCheck className="mx-auto text-slate-300" size={28} />
+            <p className="mt-2 text-sm font-bold text-slate-700">
+              {result ? 'No recovery plans generated' : 'Recovery plans will appear here'}
+            </p>
+            <p className="mt-1 text-xs text-slate-500">
+              Recommendations are populated directly from the simulation engine.
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Warnings and assumptions */}
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+        <div className="rounded-2xl border border-amber-200 bg-white p-5">
+          <div className="mb-3 flex items-center gap-2">
+            <AlertTriangle className="text-amber-600" size={18} />
+            <h3 className="text-sm font-bold text-slate-900">
+              Data Warnings ({warnings.length})
+            </h3>
+          </div>
+          {warnings.length > 0 ? (
+            <ul className="space-y-2">
+              {warnings.map((warning, index) => (
+                <li
+                  key={`${index}-${warning}`}
+                  className="rounded-lg bg-amber-50 p-3 text-xs leading-relaxed text-amber-900"
+                >
+                  {warning}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-xs text-slate-500">
+              {result ? 'No warnings reported by the engine.' : 'Waiting for simulation data.'}
+            </p>
+          )}
+        </div>
+
+        <div className="rounded-2xl border border-blue-200 bg-white p-5">
+          <div className="mb-3 flex items-center gap-2">
+            <CheckCircle2 className="text-blue-600" size={18} />
+            <h3 className="text-sm font-bold text-slate-900">
+              Simulation Assumptions ({assumptions.length})
+            </h3>
+          </div>
+          {assumptions.length > 0 ? (
+            <ul className="space-y-2">
+              {assumptions.map((assumption, index) => (
+                <li
+                  key={`${index}-${assumption}`}
+                  className="rounded-lg bg-blue-50 p-3 text-xs leading-relaxed text-blue-900"
+                >
+                  {assumption}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-xs text-slate-500">
+              {result ? 'No assumptions reported by the engine.' : 'Waiting for simulation data.'}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="flex flex-col justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-4 sm:flex-row sm:items-center">
+        <div>
+          <p className="text-xs font-bold text-slate-800">
+            Ripple · Explainable Supply Chain Intelligence
+          </p>
+          <p className="mt-1 text-[11px] text-slate-500">
+            Hypothetical simulation results. Recovery actions are drafts, not automatic operations.
+          </p>
+        </div>
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+          Simulation Contract v0.4
+        </span>
       </div>
     </div>
   );
